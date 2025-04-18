@@ -102,15 +102,26 @@
      <button onclick="goBack()">← Back</button>
    </div>
 
-  <!-- Application Form -->
-  <div id="applicationForm" class="hidden language-selector">
+  <!-- Rental Application -->
+  <div id="applicationForm" class="hidden">
+    <button class="back-button" onclick="goBack('applicationForm')">←</button>
     <h2 id="formTitle">Rental Application</h2>
-    <form id="rentalForm">
-      <input type="text" placeholder="Full Name" required />
-      <input type="email" placeholder="Email Address" required />
-      <input type="tel" placeholder="Phone Number" required />
-      <textarea placeholder="Tell us about yourself" rows="4"></textarea>
-      <button type="submit" class="lang-btn">Submit Application</button>
+    <form>
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email Address" required>
+      <input type="tel" placeholder="Phone Number" required>
+      <input type="text" placeholder="Date of Birth" required>
+      <input type="text" placeholder="Current Address" required>
+      <input type="text" placeholder="Employer Name" required>
+      <input type="text" placeholder="Monthly Income" required>
+      <input type="text" placeholder="Current Landlord Name" required>
+      <input type="tel" placeholder="Landlord Phone Number" required>
+      <input type="text" placeholder="Reason for Moving" required>
+      <textarea placeholder="Other Occupants (names, ages)"></textarea>
+      <textarea placeholder="Pets? (type, breed, weight)"></textarea>
+      <textarea placeholder="Vehicles (make/model/year/license)"></textarea>
+      <textarea placeholder="Emergency Contact (name, phone, relationship)"></textarea>
+      <button type="submit">Submit Application</button>
     </form>
   </div>
  
