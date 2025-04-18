@@ -122,7 +122,18 @@ function setLanguage(lang) {
   language = lang;
   localStorage.setItem("lang", lang);
   document.getElementById("languageModal").style.display = "none";
+  document.getElementById("promptScreen").classList.remove("hidden");
+  updateLabels();
+}
+function goToGallery() {
+  document.getElementById("promptScreen").classList.add("hidden");
   document.getElementById("mainPage").classList.remove("hidden");
+  updateLabels();
+}
+
+function goToApplication() {
+  document.getElementById("promptScreen").classList.add("hidden");
+  document.getElementById("applicationForm").classList.remove("hidden");
   updateLabels();
 }
 
@@ -150,16 +161,17 @@ function showSlide() {
 function updateLabels() {
   const mainText = language === 'es' ? 'Casa Principal' : 'Main House';
   const studioText = language === 'es' ? 'Estudio' : 'Studio';
+  const promptTitle = language === 'es' ? '¿Qué te gustaría hacer?' : 'What would you like to do?';
+  const viewImages = language === 'es' ? 'Ver Imágenes' : 'View Images';
+  const applyText = language === 'es' ? 'Solicitar esta Propiedad' : 'Apply for this Property';
+  const formTitle = language === 'es' ? 'Solicitud de Alquiler' : 'Rental Application';
 
   document.getElementById('mainHouseBtn').textContent = mainText;
   document.getElementById('studioBtn').textContent = studioText;
-}
-
-function nextSlide() {
-  if (currentSlide < slides[currentType].length - 1) {
-    currentSlide++;
-    showSlide();
-  }
+  document.getElementById('promptTitle').textContent = promptTitle;
+  document.getElementById('viewImagesBtn').textContent = viewImages;
+  document.getElementById('applyNowBtn').textContent = applyText;
+  document.getElementById('formTitle').textContent = formTitle;
 }
 
 function prevSlide() {
