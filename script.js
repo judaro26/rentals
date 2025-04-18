@@ -64,6 +64,7 @@ window.onload = () => {
     document.getElementById("languageModal").style.display = "flex";
   } else {
     document.getElementById("mainPage").classList.remove("hidden");
+    updateLabels();
   }
 };
 
@@ -72,6 +73,7 @@ function setLanguage(lang) {
   localStorage.setItem("lang", lang);
   document.getElementById("languageModal").style.display = "none";
   document.getElementById("mainPage").classList.remove("hidden");
+  updateLabels();
 }
 
 function openSlideshow(type) {
