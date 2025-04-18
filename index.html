@@ -70,20 +70,26 @@
 </head>
 <body>
    <!-- Language Modal -->
-   <div id="languageModal" class="modal">
-     <div class="modal-content">
-       <h2>Select Language / Selecciona idioma</h2>
-       <button onclick="setLanguage('en')">English</button>
-       <button onclick="setLanguage('es')">Español</button>
-       <button onclick="goBack()">← Back</button>
-     </div>
-   </div>
+  <div id="languageModal" class="modal">
+    <div class="modal-content">
+      <h2>Select Language / Selecciona idioma</h2>
+      <div class="button-group">
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('es')">Español</button>
+        <button onclick="goBack()">← Back</button>
+      </div>
+    </div>
+  </div>
+
 
     <!-- Prompt Screen -->
   <div id="promptScreen" class="hidden language-selector">
     <h2 id="promptTitle">What would you like to do?</h2>
-    <button id="viewImagesBtn" class="lang-btn" onclick="goToGallery()"></button>
-    <button id="applyNowBtn" class="lang-btn" onclick="goToApplication()"></button>
+    <div class="button-group">
+      <button id="viewImagesBtn" class="lang-btn" onclick="goToGallery()"></button>
+      <button id="applyNowBtn" class="lang-btn" onclick="goToApplication()"></button>
+      <button class="lang-btn" onclick="goBack()">← Back</button>
+    </div>
   </div>
 
  
