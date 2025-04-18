@@ -83,6 +83,7 @@
     <h2 id="promptTitle">What would you like to do?</h2>
     <button id="viewImagesBtn" class="lang-btn" onclick="goToGallery()"></button>
     <button id="applyNowBtn" class="lang-btn" onclick="goToApplication()"></button>
+    <button class="back-button" onclick="goBack()">← Back</button>
   </div>
 
  
@@ -92,6 +93,7 @@
       <div class="button-container">
         <button id="mainHouseBtn" onclick="openSlideshow('main')">Main House</button>
         <button id="studioBtn" onclick="openSlideshow('studio')">Studio</button>
+        <button class="back-button" onclick="goBack()">← Back</button>
       </div>
     </div>
 
@@ -112,6 +114,7 @@
       <textarea placeholder="Tell us about yourself" rows="4"></textarea>
       <button type="submit" class="lang-btn">Submit Application</button>
     </form>
+    <button class="back-button" onclick="goBack()">← Back</button>
   </div>
  
    <script src="script.js"></script>
