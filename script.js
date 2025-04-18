@@ -142,12 +142,14 @@ function setLanguage(lang) {
   updateLabels();
 }
 function goToGallery() {
-  showSection("mainPage");
+  document.getElementById("promptScreen").classList.add("hidden");
+  document.getElementById("galleryScreen").classList.remove("hidden");
   updateLabels();
 }
 
 function goToApplication() {
-  showSection("applicationForm");
+  document.getElementById("promptScreen").classList.add("hidden");
+  document.getElementById("applicationForm").classList.remove("hidden");
   updateLabels();
 }
 
@@ -195,10 +197,11 @@ function prevSlide() {
 }
 
 function goBack() {
-  if (previousSection) {
-    showSection(previousSection);
-  } else {
-    // Fallback if no previous section is tracked
-    showSection("mainPage");
-  }
+  // Hide all main screens
+  document.getElementById("promptScreen").classList.add("hidden");
+  document.getElementById("applicationForm")?.classList.add("hidden");
+  document.getElementById("galleryScreen")?.classList.add("hidden");
+
+  // Show the modal
+  document.getElementById("languageModal").style.display = "flex";
 }
