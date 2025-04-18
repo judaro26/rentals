@@ -37,9 +37,19 @@ const slides = {
     },
     {
       src: 'images/main8.jpg',
-      en: "Spacious backyard with BBQ area",
-      es: "Amplio patio trasero con zona de barbacoa"
-    }
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+    {
+      src: 'images/main9.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+    {
+      src: 'images/main10.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
   ],
   studio: [
     {
