@@ -116,12 +116,6 @@ function showSection(sectionId) {
   currentSection = sectionId;
 }
 
-function goBack() {
-  if (previousSection) {
-    showSection(previousSection);
-  }
-}
-
 let language = localStorage.getItem("lang");
 let currentSlide = 0;
 let currentType = 'main';
