@@ -115,6 +115,10 @@ button:hover {
   margin-top: 10px;
 }
 
+#applicationForm {
+  -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
+}
+
 .back-button {
   position: absolute;
   top: 20px;
