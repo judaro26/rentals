@@ -113,7 +113,7 @@ window.onload = () => {
   if (!language) {
     document.getElementById("languageModal").style.display = "flex";
   } else {
-    document.getElementById("mainPage").classList.remove("hidden");
+    document.getElementById("promptScreen").classList.remove("hidden");
     updateLabels();
   }
 };
