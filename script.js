@@ -105,15 +105,20 @@ const slides = {
   ]
 };
 
+let currentSection = null;
 let previousSection = null;
 
 function showSection(sectionId) {
+  if (currentSection !== sectionId) {
+    previousSection = currentSection;
+    currentSection = sectionId;
+  }
+
   document.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
   const target = document.getElementById(sectionId);
-  if (!target) return;
-  target.classList.remove('hidden');
-  previousSection = currentSection;
-  currentSection = sectionId;
+  if (target) {
+    target.classList.remove('hidden');
+  }
 }
 
 let language = localStorage.getItem("lang");
@@ -137,14 +142,12 @@ function setLanguage(lang) {
   updateLabels();
 }
 function goToGallery() {
-  document.getElementById("promptScreen").classList.add("hidden");
-  document.getElementById("mainPage").classList.remove("hidden");
+  showSection("mainPage");
   updateLabels();
 }
 
 function goToApplication() {
-  document.getElementById("promptScreen").classList.add("hidden");
-  document.getElementById("applicationForm").classList.remove("hidden");
+  showSection("applicationForm");
   updateLabels();
 }
 
@@ -152,8 +155,7 @@ function openSlideshow(type) {
   currentType = type;
   currentSlide = 0;
   showSlide();
-  document.getElementById("mainPage").classList.add("hidden");
-  document.getElementById("slideshow").classList.remove("hidden");
+  showSection("slideshow");
 }
 
 function showSlide() {
@@ -193,6 +195,10 @@ function prevSlide() {
 }
 
 function goBack() {
-  document.getElementById("slideshow").classList.add("hidden");
-  document.getElementById("mainPage").classList.remove("hidden");
+  if (previousSection) {
+    showSection(previousSection);
+  } else {
+    // Fallback if no previous section is tracked
+    showSection("mainPage");
+  }
 }
