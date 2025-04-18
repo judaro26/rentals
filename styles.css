@@ -1,3 +1,6 @@
+#promptScreen.hidden {
+  display: none !important;
+}
 body {
   margin: 0;
   font-family: sans-serif;
@@ -52,10 +55,11 @@ button:hover {
 }
 
 .modal-content {
-  background: #222;
+  background: #111; /* or a solid color */
   padding: 30px;
   border-radius: 12px;
   text-align: center;
+  z-index: 10001;
 }
 
 .title {
