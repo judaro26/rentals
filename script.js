@@ -95,6 +95,14 @@ function showSlide() {
   `;
 }
 
+function updateLabels() {
+  const mainText = language === 'es' ? 'Casa Principal' : 'Main House';
+  const studioText = language === 'es' ? 'Estudio' : 'Studio';
+
+  document.getElementById('mainHouseBtn').textContent = mainText;
+  document.getElementById('studioBtn').textContent = studioText;
+}
+
 function nextSlide() {
   if (currentSlide < slides[currentType].length - 1) {
     currentSlide++;
