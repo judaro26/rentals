@@ -2,11 +2,41 @@ const slides = {
   main: [
     {
       src: 'images/main1.jpg',
-      en: "Main House - 3 Bed / 2 Bath - $2000/mo",
-      es: "Casa Principal - 3 Habitaciones / 2 Baños - $2000/mes"
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+        {
+      src: 'images/main2.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+      {
+      src: 'images/main3.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
     },
     {
-      src: 'images/main2.jpg',
+      src: 'images/main4.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+    {
+      src: 'images/main5.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+    {
+      src: 'images/main6.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+    {
+      src: 'images/main7.jpg',
+      en: "Main House - 2 Bed / 1 Bath - $1950/mo",
+      es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
+    },
+    {
+      src: 'images/main8.jpg',
       en: "Spacious backyard with BBQ area",
       es: "Amplio patio trasero con zona de barbacoa"
     }
