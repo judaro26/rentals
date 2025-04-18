@@ -54,14 +54,54 @@ const slides = {
   studio: [
     {
       src: 'images/studio1.jpg',
-      en: "Studio - 1 Bed / 1 Bath - $1200/mo",
-      es: "Estudio - 1 Habitación / 1 Baño - $1200/mes"
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
     },
     {
       src: 'images/studio2.jpg',
-      en: "Cozy and modern design",
-      es: "Diseño acogedor y moderno"
-    }
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio3.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio4.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio5.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio6.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio7.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio8.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio9.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
+    {
+      src: 'images/studio10.jpg',
+      en: "Studio - 1 Bed / 1 Bath - $950/mo",
+      es: "Estudio - 1 Habitación / 1 Baño - $950/mes"
+    },
   ]
 };
 
