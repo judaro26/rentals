@@ -105,17 +105,51 @@
    </div>
 
   <!-- Application Form -->
-  <div id="applicationForm" class="hidden language-selector">
-    <h2 id="formTitle">Rental Application</h2>
-    <form id="rentalForm">
-      <input type="text" placeholder="Full Name" required />
-      <input type="email" placeholder="Email Address" required />
-      <input type="tel" placeholder="Phone Number" required />
-      <textarea placeholder="Tell us about yourself" rows="4"></textarea>
-      <button type="submit" class="lang-btn">Submit Application</button>
-    </form>
-    <button class="back-button" onclick="goBack()">← Back</button>
-  </div>
+  <h2 id="formTitle">Rental Application</h2>
+  <form id="rentalApplicationForm">
+    <!-- Personal Info -->
+    <input type="text" placeholder="Full Name" required>
+    <input type="text" placeholder="Phone Number" required>
+    <input type="email" placeholder="Email Address" required>
+    <input type="text" placeholder="Social Security Number" required>
+    <input type="date" placeholder="Date of Birth" required>
+  
+    <!-- Current Address -->
+    <input type="text" placeholder="Current Address" required>
+    <input type="text" placeholder="City" required>
+    <input type="text" placeholder="State" required>
+    <input type="text" placeholder="ZIP Code" required>
+    <input type="text" placeholder="Landlord Name & Phone" required>
+    <input type="text" placeholder="Reason for Leaving" required>
+    <input type="text" placeholder="How long at this address?" required>
+  
+    <!-- Employment Info -->
+    <input type="text" placeholder="Employer Name" required>
+    <input type="text" placeholder="Employer Phone" required>
+    <input type="text" placeholder="Position / Title" required>
+    <input type="text" placeholder="Monthly Income (Gross)" required>
+    <input type="text" placeholder="How long employed?" required>
+  
+    <!-- Other Income -->
+    <input type="text" placeholder="Other Income Source (if any)">
+    <input type="text" placeholder="Other Income Amount">
+  
+    <!-- Emergency Contact -->
+    <input type="text" placeholder="Emergency Contact Name" required>
+    <input type="text" placeholder="Emergency Contact Phone" required>
+    <input type="text" placeholder="Relationship" required>
+  
+    <!-- References -->
+    <input type="text" placeholder="Personal Reference Name">
+    <input type="text" placeholder="Reference Phone">
+  
+    <!-- Authorization -->
+    <textarea placeholder="I authorize the landlord to verify my information and run a background/credit check." required></textarea>
+  
+    <!-- Submit Button -->
+    <button type="submit">Submit Application</button>
+  </form>
+
  
    <script src="script.js"></script>
  </body>
