@@ -89,10 +89,9 @@ button:hover {
 }
 
 #applicationForm form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 #applicationForm input,
