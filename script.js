@@ -141,9 +141,10 @@ function setLanguage(lang) {
   document.getElementById("promptScreen").classList.remove("hidden");
   updateLabels();
 }
+
 function goToGallery() {
-  document.getElementById("promptScreen").classList.add("hidden");
-  document.getElementById("galleryScreen").classList.remove("hidden");
+  document.getElementById('promptScreen').classList.add('hidden');
+  document.getElementById('mainPage').classList.remove('hidden');
   updateLabels();
 }
 
