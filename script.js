@@ -105,6 +105,23 @@ const slides = {
   ]
 };
 
+let previousSection = null;
+
+function showSection(sectionId) {
+  document.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
+  const target = document.getElementById(sectionId);
+  if (!target) return;
+  target.classList.remove('hidden');
+  previousSection = currentSection;
+  currentSection = sectionId;
+}
+
+function goBack() {
+  if (previousSection) {
+    showSection(previousSection);
+  }
+}
+
 let language = localStorage.getItem("lang");
 let currentSlide = 0;
 let currentType = 'main';
