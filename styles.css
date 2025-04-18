@@ -73,13 +73,13 @@ button:hover {
 }
 #promptScreen,
 #applicationForm {
-  text-align: center;
-  padding: 40px;
-  background: #1a1a1a;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
-  max-width: 500px;
-  width: 90%;
+  height: 90vh; /* allows space for some padding and the back button */
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.6); /* optional for contrast */
+  color: white;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
 }
 
 #promptTitle,
