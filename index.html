@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Select Language</title>
+  <link rel="stylesheet" href="styles.css" />
   <style>
     body {
       margin: 0;
@@ -48,17 +49,30 @@
   </style>
 </head>
 <body>
-  <div class="language-selector">
-    <h1>Select Language / Seleccione Idioma</h1>
-    <button class="lang-btn" onclick="setLanguage('en')">English</button>
-    <button class="lang-btn" onclick="setLanguage('es')">Español</button>
-  </div>
-
-  <script>
-    function setLanguage(lang) {
-      localStorage.setItem('siteLang', lang);
-      window.location.href = 'home.html'; // Replace with your main site page
-    }
-  </script>
-</body>
+   <!-- Language Modal -->
+   <div id="languageModal" class="modal">
+     <div class="modal-content">
+       <h2>Select Language / Selecciona idioma</h2>
+       <button onclick="setLanguage('en')">English</button>
+       <button onclick="setLanguage('es')">Español</button>
+     </div>
+   </div>
+ 
+   <!-- Main Page -->
+   <div id="mainPage" class="main hidden">
+     <h1 class="title">Choose a Property</h1>
+     <div class="button-container">
+       <button onclick="openSlideshow('main')">Main House</button>
+       <button onclick="openSlideshow('studio')">Studio</button>
+     </div>
+   </div>
+ 
+   <!-- Slideshow -->
+   <div id="slideshow" class="slideshow hidden">
+     <div id="slidesContainer"></div>
+     <button onclick="goBack()">← Back</button>
+   </div>
+ 
+   <script src="script.js"></script>
+ </body>
 </html>
