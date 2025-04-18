@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Property Showcase</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Language Modal -->
+  <div id="languageModal" class="modal">
+    <div class="modal-content">
+      <h2>Select Language / Selecciona idioma</h2>
+      <button onclick="setLanguage('en')">English</button>
+      <button onclick="setLanguage('es')">Español</button>
+    </div>
+  </div>
+
+  <!-- Main Page -->
+  <div id="mainPage" class="main hidden">
+    <h1 class="title">Choose a Property</h1>
+    <div class="button-container">
+      <button onclick="openSlideshow('main')">Main House</button>
+      <button onclick="openSlideshow('studio')">Studio</button>
+    </div>
+  </div>
+
+  <!-- Slideshow -->
+  <div id="slideshow" class="slideshow hidden">
+    <div id="slidesContainer"></div>
+    <button onclick="goBack()">← Back</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
