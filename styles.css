@@ -29,7 +29,13 @@ button {
   color: white;
   transition: background 0.3s;
 }
-
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space between buttons */
+  align-items: center;
+  margin-top: 1rem;
+}
 button:hover {
   background: #666;
 }
