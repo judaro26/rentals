@@ -75,6 +75,7 @@
        <h2>Select Language / Selecciona idioma</h2>
        <button onclick="setLanguage('en')">English</button>
        <button onclick="setLanguage('es')">Español</button>
+       <button onclick="goBack()">← Back</button>
      </div>
    </div>
 
@@ -92,6 +93,7 @@
       <div class="button-container">
         <button id="mainHouseBtn" onclick="openSlideshow('main')">Main House</button>
         <button id="studioBtn" onclick="openSlideshow('studio')">Studio</button>
+        <button onclick="goBack()">← Back</button>
       </div>
     </div>
 
@@ -104,7 +106,7 @@
 
   <!-- Rental Application -->
   <div id="applicationForm" class="hidden">
-    <button class="back-button" onclick="goBack('applicationForm')">←</button>
+     <button onclick="goBack()">← Back</button>
     <h2 id="formTitle">Rental Application</h2>
     <form>
       <input type="text" placeholder="Full Name" required>
