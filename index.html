@@ -3,13 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Rental</title>
+    <title>Luxury Property Rentals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+            --radius: 12px;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
         }
         
         .hidden {
@@ -23,211 +48,503 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: linear-gradient(135deg, rgba(44,62,80,0.95) 0%, rgba(52,152,219,0.95) 100%);
             display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             z-index: 1000;
             color: white;
+            animation: fadeIn 0.5s ease;
         }
         
         #languageModal h2 {
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
-        #languageModal button {
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 18px;
-            background: #4CAF50;
+        .language-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .lang-btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.1);
             color: white;
-            border: none;
-            border-radius: 5px;
+            border: 2px solid white;
+            border-radius: var(--radius);
             cursor: pointer;
-            min-width: 200px;
+            min-width: 180px;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
         
         /* Prompt Screen */
         #promptScreen {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
             text-align: center;
+            animation: fadeInUp 0.6s ease;
         }
         
-        #promptScreen h2 {
-            margin-bottom: 30px;
+        #promptTitle {
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
         }
         
-        #promptScreen button {
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 16px;
-            background: #2196F3;
+        #promptTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .action-btn {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: var(--secondary);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: var(--radius);
             cursor: pointer;
-            min-width: 200px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            box-shadow: var(--shadow);
         }
         
-        /* Main Gallery Page */
+        .action-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .action-btn i {
+            font-size: 1.3rem;
+        }
+        
+        /* Gallery Page */
         #mainPage {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
+            padding: 4rem 0;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        #galleryTitle {
             text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
         }
         
-        #mainPage h2 {
-            margin-bottom: 30px;
+        .property-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
         
-        #mainPage button {
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 16px;
-            background: #FF9800;
+        .property-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .property-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .property-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .property-info {
+            padding: 1.5rem;
+        }
+        
+        .property-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .property-info p {
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .view-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary);
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            min-width: 200px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .view-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
         }
         
         /* Application Form */
         #applicationForm {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 20px;
+            max-width: 700px;
+            margin: 3rem auto;
+            padding: 3rem;
             background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.6s ease;
         }
         
-        #applicationForm h2 {
+        #formTitle {
             text-align: center;
-            margin-bottom: 20px;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
         }
         
-        #applicationForm form {
-            display: flex;
-            flex-direction: column;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
         
-        #applicationForm input, #applicationForm select {
-            padding: 10px;
-            margin-bottom: 15px;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
         }
         
-        #applicationForm button {
-            padding: 12px;
-            background: #4CAF50;
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--success);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
         
         /* Slideshow */
         #slideshow {
-            max-width: 800px;
-            margin: 30px auto;
-            text-align: center;
+            max-width: 900px;
+            margin: 3rem auto;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        #slidesContainer {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            padding: 2rem;
         }
         
         #slidesContainer img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: calc(var(--radius) - 5px);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .caption {
-            margin: 15px 0;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
         }
         
-        #slideshow button {
-            padding: 10px 20px;
-            margin: 5px;
-            background: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        .slide-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
         
-        /* Back button */
-        .back-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background: #9E9E9E;
+        .slide-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 50px;
             cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        .slide-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .slide-btn:hover:not(:disabled) {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            background: var(--light);
+            color: var(--dark);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            margin: 2rem auto;
+            text-decoration: none;
+        }
+        
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .back-btn:hover {
+            background: #d5dbdb;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--primary);
+            color: white;
+            margin-top: 3rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            #promptTitle, #galleryTitle, #formTitle {
+                font-size: 2rem;
+            }
+            
+            .language-buttons, .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .lang-btn, .action-btn {
+                width: 100%;
+            }
+            
+            #applicationForm {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Language Selection Modal -->
     <div id="languageModal">
-        <h2>Select Language / Seleccionar Idioma</h2>
-        <button onclick="setLanguage('en')">English</button>
-        <button onclick="setLanguage('es')">Español</button>
+        <h2>Select Your Language<br>Seleccione su Idioma</h2>
+        <div class="language-buttons">
+            <button class="lang-btn" onclick="setLanguage('en')">
+                <i class="fas fa-language"></i> English
+            </button>
+            <button class="lang-btn" onclick="setLanguage('es')">
+                <i class="fas fa-language"></i> Español
+            </button>
+        </div>
     </div>
 
     <!-- Prompt Screen -->
     <section id="promptScreen" class="hidden">
-        <h2 id="promptTitle">What would you like to do?</h2>
-        <button id="viewImagesBtn" onclick="goToGallery()">View Images</button>
-        <button id="applyNowBtn" onclick="goToApplication()">Apply for this Property</button>
-        <button class="back-button" onclick="goBack()">Back / Atrás</button>
+        <div class="container">
+            <h2 id="promptTitle">What would you like to do?</h2>
+            <div class="action-buttons">
+                <button id="viewImagesBtn" class="action-btn" onclick="goToGallery()">
+                    <i class="fas fa-images"></i> View Images
+                </button>
+                <button id="applyNowBtn" class="action-btn" onclick="goToApplication()">
+                    <i class="fas fa-file-signature"></i> Apply for Property
+                </button>
+            </div>
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
     </section>
 
-    <!-- Main Gallery Page -->
+    <!-- Gallery Page -->
     <section id="mainPage" class="hidden">
-        <h2 id="galleryTitle">Select a Property</h2>
-        <button id="mainHouseBtn" onclick="openSlideshow('main')">Main House</button>
-        <button id="studioBtn" onclick="openSlideshow('studio')">Studio</button>
-        <button class="back-button" onclick="showPromptScreen()">Back / Atrás</button>
+        <div class="container">
+            <h2 id="galleryTitle">Our Properties</h2>
+            <div class="property-cards">
+                <div class="property-card">
+                    <div class="property-img" style="background-image: url('images/main1.jpg');"></div>
+                    <div class="property-info">
+                        <h3 id="mainHouseBtn">Main House</h3>
+                        <p id="mainHouseDesc">2 Bed / 1 Bath - $1950/mo</p>
+                        <button class="view-btn" onclick="openSlideshow('main')">
+                            View Gallery
+                        </button>
+                    </div>
+                </div>
+                <div class="property-card">
+                    <div class="property-img" style="background-image: url('images/studio1.jpg');"></div>
+                    <div class="property-info">
+                        <h3 id="studioBtn">Studio</h3>
+                        <p id="studioDesc">1 Bed / 1 Bath - $950/mo</p>
+                        <button class="view-btn" onclick="openSlideshow('studio')">
+                            View Gallery
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button class="back-btn" onclick="showPromptScreen()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
     </section>
 
     <!-- Application Form -->
     <section id="applicationForm" class="hidden">
-        <h2 id="formTitle">Rental Application</h2>
-        <form>
-          <input type="text" placeholder="Full Name" required />
-          <input type="email" placeholder="Email Address" required />
-          <input type="tel" placeholder="Phone Number" required />
-          <input type="text" placeholder="Date of Birth" required />
-          <input type="text" placeholder="Current Address" required />
-          <input type="text" placeholder="Employer Name" required />
-          <input type="text" placeholder="Monthly Income" required />
-          <input type="text" placeholder="Current Landlord Name" required />
-          <input type="tel" placeholder="Landlord Phone Number" required />
-          <input type="text" placeholder="Reason for Moving" required />
-          <textarea placeholder="Other Occupants (names, ages)"></textarea>
-          <textarea placeholder="Pets? (type, breed, weight)"></textarea>
-          <textarea placeholder="Vehicles (make/model/year/license)"></textarea>
-          <textarea placeholder="Emergency Contact (name, phone, relationship)"></textarea>
-          <button type="submit">Submit Application</button>
-        </form>
-        <button class="back-button" onclick="showPromptScreen()">Back / Atrás</button>
+        <div class="container">
+            <h2 id="formTitle">Rental Application</h2>
+            <form>
+                <div class="form-group">
+                    <label for="fullName" id="fullNameLabel">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="John Smith" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" id="emailLabel">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone" id="phoneLabel">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="(123) 456-7890" required>
+                </div>
+                <div class="form-group">
+                    <label for="property" id="propertyLabel">Property Interest</label>
+                    <select id="property" class="form-control" required>
+                        <option value="">Select a property</option>
+                        <option value="main">Main House</option>
+                        <option value="studio">Studio</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Submit Application
+                </button>
+            </form>
+            <button class="back-btn" onclick="showPromptScreen()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
     </section>
 
     <!-- Slideshow -->
     <section id="slideshow" class="hidden">
-        <div id="slidesContainer"></div>
-        <button class="back-button" onclick="goBackToGallery()">Back to Gallery / Volver a la galería</button>
+        <div class="container">
+            <div id="slidesContainer"></div>
+            <button class="back-btn" onclick="goBackToGallery()">
+                <i class="fas fa-arrow-left"></i> Back to Gallery
+            </button>
+        </div>
     </section>
+
+    <footer>
+        <p>&copy; 2023 Luxury Property Rentals. All rights reserved.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
