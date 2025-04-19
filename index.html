@@ -204,15 +204,21 @@
     <section id="applicationForm" class="hidden">
         <h2 id="formTitle">Rental Application</h2>
         <form>
-            <input type="text" placeholder="Full Name / Nombre Completo" required>
-            <input type="email" placeholder="Email" required>
-            <input type="tel" placeholder="Phone Number / Número de Teléfono" required>
-            <select required>
-                <option value="">Select Property Type / Tipo de Propiedad</option>
-                <option value="main">Main House / Casa Principal</option>
-                <option value="studio">Studio / Estudio</option>
-            </select>
-            <button type="submit">Submit Application / Enviar Solicitud</button>
+          <input type="text" placeholder="Full Name" required />
+          <input type="email" placeholder="Email Address" required />
+          <input type="tel" placeholder="Phone Number" required />
+          <input type="text" placeholder="Date of Birth" required />
+          <input type="text" placeholder="Current Address" required />
+          <input type="text" placeholder="Employer Name" required />
+          <input type="text" placeholder="Monthly Income" required />
+          <input type="text" placeholder="Current Landlord Name" required />
+          <input type="tel" placeholder="Landlord Phone Number" required />
+          <input type="text" placeholder="Reason for Moving" required />
+          <textarea placeholder="Other Occupants (names, ages)"></textarea>
+          <textarea placeholder="Pets? (type, breed, weight)"></textarea>
+          <textarea placeholder="Vehicles (make/model/year/license)"></textarea>
+          <textarea placeholder="Emergency Contact (name, phone, relationship)"></textarea>
+          <button type="submit">Submit Application</button>
         </form>
         <button class="back-button" onclick="showPromptScreen()">Back / Atrás</button>
     </section>
