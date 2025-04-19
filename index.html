@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Select Language</title>
@@ -20,10 +20,6 @@
       align-items: center;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
     .language-selector {
       background: rgba(0, 0, 0, 0.5);
       padding: 2rem 3rem;
@@ -33,14 +29,12 @@
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
     }
 
-    .language-selector h1,
-    .language-selector h2 {
+    .language-selector h1 {
       margin-bottom: 1rem;
       font-size: 1.8rem;
     }
 
-    .lang-btn,
-    .button-group button {
+    .lang-btn {
       background-color: white;
       color: #333;
       padding: 0.75rem 1.5rem;
@@ -52,114 +46,96 @@
       transition: background 0.3s ease;
     }
 
-    .lang-btn:hover,
-    .button-group button:hover {
+    .lang-btn:hover {
       background-color: #f0f0f0;
     }
 
-    #applicationForm input,
-    #applicationForm textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-    }
+  #applicationForm input, 
+  #applicationForm textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+  }
 
-    #applicationForm form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  #applicationForm form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    #applicationForm textarea {
-      resize: none;
-    }
-
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .slideshow img {
-      max-width: 90vw;
-      max-height: 80vh;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-
-    .slideshow p {
-      color: white;
-      margin-top: 0.5rem;
-    }
+  #applicationForm textarea {
+    resize: none;
+  }
   </style>
 </head>
 <body>
-  <!-- Language Modal -->
-  <section id="languageModal" class="language-selector">
-    <h2>Select Language / Selecciona idioma</h2>
-    <div class="button-group">
-      <button onclick="setLanguage('en')">English</button>
-      <button onclick="setLanguage('es')">Español</button>
+   <!-- Language Modal -->
+  <div id="languageModal" class="modal">
+    <div class="modal-content">
+      <h2>Select Language / Selecciona idioma</h2>
+      <div class="button-group">
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('es')">Español</button>
+        <button onclick="goBack()">← Back</button>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Prompt Screen -->
-  <section id="promptScreen" class="language-selector hidden">
+
+    <!-- Prompt Screen -->
+  <div id="promptScreen" class="hidden language-selector">
     <h2 id="promptTitle">What would you like to do?</h2>
     <div class="button-group">
       <button id="viewImagesBtn" class="lang-btn" onclick="goToGallery()"></button>
       <button id="applyNowBtn" class="lang-btn" onclick="goToApplication()"></button>
       <button class="lang-btn" onclick="goBack()">← Back</button>
     </div>
-  </section>
+  </div>
 
-  <!-- Main Page -->
-  <section id="mainPage" class="language-selector hidden">
-    <h1 class="title">Choose a Property</h1>
-    <div class="button-container">
-      <button onclick="openSlideshow('main')">Main House</button>
-      <button onclick="openSlideshow('studio')">Studio</button>
-      <button onclick="goBack()">← Back</button>
+ 
+    <!-- Main Page -->
+    <div id="mainPage" class="main hidden">
+      <h1 class="title">Choose a Property</h1>
+      <div class="button-container">
+        <button id="mainHouseBtn" onclick="openSlideshow('main')">Main House</button>
+        <button id="studioBtn" onclick="openSlideshow('studio')">Studio</button>
+        <button onclick="goBack()">← Back</button>
+      </div>
     </div>
-  </section>
 
-  <!-- Slideshow -->
-  <section id="slideshow" class="slideshow hidden language-selector">
-    <img id="slideImage" src="" alt="Property image" />
-    <p id="slideCaption"></p>
-    <div class="button-group">
-      <button onclick="prevSlide()">← Prev</button>
-      <button onclick="nextSlide()">Next →</button>
-      <button onclick="goBack()">← Back</button>
-    </div>
-  </section>
+
+   <!-- Slideshow -->
+   <div id="slideshow" class="slideshow hidden">
+     <div id="slidesContainer"></div>
+     <button onclick="goBack()">← Back</button>
+   </div>
 
   <!-- Rental Application -->
-  <section id="applicationForm" class="language-selector hidden">
-    <button onclick="goBack()">← Back</button>
+  <div id="applicationForm" class="hidden">
+     <button onclick="goBack()">← Back</button>
     <h2 id="formTitle">Rental Application</h2>
     <form>
-      <input type="text" placeholder="Full Name" required />
-      <input type="email" placeholder="Email Address" required />
-      <input type="tel" placeholder="Phone Number" required />
-      <input type="text" placeholder="Date of Birth" required />
-      <input type="text" placeholder="Current Address" required />
-      <input type="text" placeholder="Employer Name" required />
-      <input type="text" placeholder="Monthly Income" required />
-      <input type="text" placeholder="Current Landlord Name" required />
-      <input type="tel" placeholder="Landlord Phone Number" required />
-      <input type="text" placeholder="Reason for Moving" required />
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email Address" required>
+      <input type="tel" placeholder="Phone Number" required>
+      <input type="text" placeholder="Date of Birth" required>
+      <input type="text" placeholder="Current Address" required>
+      <input type="text" placeholder="Employer Name" required>
+      <input type="text" placeholder="Monthly Income" required>
+      <input type="text" placeholder="Current Landlord Name" required>
+      <input type="tel" placeholder="Landlord Phone Number" required>
+      <input type="text" placeholder="Reason for Moving" required>
       <textarea placeholder="Other Occupants (names, ages)"></textarea>
       <textarea placeholder="Pets? (type, breed, weight)"></textarea>
       <textarea placeholder="Vehicles (make/model/year/license)"></textarea>
       <textarea placeholder="Emergency Contact (name, phone, relationship)"></textarea>
       <button type="submit">Submit Application</button>
     </form>
-  </section>
-
-  <script src="script.js"></script>
-</body>
+  </div>
+ 
+   <script src="script.js"></script>
+ </body>
 </html>
