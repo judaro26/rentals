@@ -107,39 +107,50 @@ const slides = {
 
 let currentSection = null;
 let previousSection = null;
-
-function showSection(sectionId) {
-  if (currentSection !== sectionId) {
-    previousSection = currentSection;
-    currentSection = sectionId;
-  }
-
-  document.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
-  const target = document.getElementById(sectionId);
-  if (target) {
-    target.classList.remove('hidden');
-  }
-}
-
 let language = localStorage.getItem("lang");
 let currentSlide = 0;
 let currentType = 'main';
 
-window.onload = () => {
+// Initialize the page with everything hidden except language modal if needed
+function initializePage() {
+  // Hide all sections initially
+  document.querySelectorAll('section').forEach(sec => {
+    sec.classList.add('hidden');
+  });
+  
+  // Hide the language modal initially
+  document.getElementById("languageModal").style.display = "none";
+  
+  // Check if language is set
   if (!language) {
-    document.getElementById("languageModal").style.display = "flex";
+    showLanguageModal();
   } else {
-    document.getElementById("promptScreen").classList.remove("hidden");
-    updateLabels();
+    showPromptScreen();
   }
-};
+}
+
+function showLanguageModal() {
+  // Hide everything and show only language modal
+  document.querySelectorAll('section').forEach(sec => {
+    sec.classList.add('hidden');
+  });
+  document.getElementById("languageModal").style.display = "flex";
+}
+
+function showPromptScreen() {
+  // Hide everything and show only prompt screen
+  document.querySelectorAll('section').forEach(sec => {
+    sec.classList.add('hidden');
+  });
+  document.getElementById("languageModal").style.display = "none";
+  document.getElementById("promptScreen").classList.remove("hidden");
+  updateLabels();
+}
 
 function setLanguage(lang) {
   language = lang;
   localStorage.setItem("lang", lang);
-  document.getElementById("languageModal").style.display = "none";
-  document.getElementById("promptScreen").classList.remove("hidden");
-  updateLabels();
+  showPromptScreen();
 }
 
 function goToGallery() {
@@ -158,12 +169,9 @@ function openSlideshow(type) {
   currentType = type;
   currentSlide = 0;
   showSlide();
-  // Hide the property selection screen
   document.getElementById("mainPage").classList.add("hidden");
-  // Show the slideshow screen
-  showSection("slideshow");
+  document.getElementById("slideshow").classList.remove("hidden");
 }
-
 
 function showSlide() {
   const container = document.getElementById("slidesContainer");
@@ -172,16 +180,16 @@ function showSlide() {
     <img src="${slide.src}" alt="Slide Image">
     <div class="caption">${slide[language]}</div>
     <div style="text-align: center; margin-top: 10px;">
-      ${currentSlide > 0 ? '<button onclick="prevSlide()">Previous</button>' : ''}
-      ${currentSlide < slides[currentType].length - 1 ? '<button onclick="nextSlide()">Next</button>' : ''}
+      ${currentSlide > 0 ? `<button onclick="prevSlide()">${language === 'es' ? 'Anterior' : 'Previous'}</button>` : ''}
+      ${currentSlide < slides[currentType].length - 1 ? `<button onclick="nextSlide()">${language === 'es' ? 'Siguiente' : 'Next'}</button>` : ''}
     </div>
+    <button onclick="goBackToGallery()" style="margin-top: 20px;">${language === 'es' ? 'Volver a la galería' : 'Back to Gallery'}</button>
   `;
 }
 
 function nextSlide() {
   if (currentSlide < slides[currentType].length - 1) {
     currentSlide++;
-    console.log("Next Slide:", currentSlide);
     showSlide();
   }
 }
@@ -189,40 +197,72 @@ function nextSlide() {
 function prevSlide() {
   if (currentSlide > 0) {
     currentSlide--;
-    console.log("Previous Slide:", currentSlide);
     showSlide();
   }
 }
 
 function updateLabels() {
-  const mainText = language === 'es' ? 'Casa Principal' : 'Main House';
-  const studioText = language === 'es' ? 'Estudio' : 'Studio';
-  const promptTitle = language === 'es' ? '¿Qué te gustaría hacer?' : 'What would you like to do?';
-  const viewImages = language === 'es' ? 'Ver Imágenes' : 'View Images';
-  const applyText = language === 'es' ? 'Solicitar esta Propiedad' : 'Apply for this Property';
-  const formTitle = language === 'es' ? 'Solicitud de Alquiler' : 'Rental Application';
+  const translations = {
+    en: {
+      mainHouse: 'Main House',
+      studio: 'Studio',
+      promptTitle: 'What would you like to do?',
+      viewImages: 'View Images',
+      apply: 'Apply for this Property',
+      formTitle: 'Rental Application',
+      back: 'Back',
+      previous: 'Previous',
+      next: 'Next',
+      backToGallery: 'Back to Gallery'
+    },
+    es: {
+      mainHouse: 'Casa Principal',
+      studio: 'Estudio',
+      promptTitle: '¿Qué te gustaría hacer?',
+      viewImages: 'Ver Imágenes',
+      apply: 'Solicitar esta Propiedad',
+      formTitle: 'Solicitud de Alquiler',
+      back: 'Atrás',
+      previous: 'Anterior',
+      next: 'Siguiente',
+      backToGallery: 'Volver a la galería'
+    }
+  };
 
-  document.getElementById('mainHouseBtn').textContent = mainText;
-  document.getElementById('studioBtn').textContent = studioText;
-  document.getElementById('promptTitle').textContent = promptTitle;
-  document.getElementById('viewImagesBtn').textContent = viewImages;
-  document.getElementById('applyNowBtn').textContent = applyText;
-  document.getElementById('formTitle').textContent = formTitle;
-}
-
-function prevSlide() {
-  if (currentSlide > 0) {
-    currentSlide--;
-    showSlide();
+  const lang = translations[language] || translations.en;
+  
+  if (document.getElementById('mainHouseBtn')) {
+    document.getElementById('mainHouseBtn').textContent = lang.mainHouse;
+  }
+  if (document.getElementById('studioBtn')) {
+    document.getElementById('studioBtn').textContent = lang.studio;
+  }
+  if (document.getElementById('promptTitle')) {
+    document.getElementById('promptTitle').textContent = lang.promptTitle;
+  }
+  if (document.getElementById('viewImagesBtn')) {
+    document.getElementById('viewImagesBtn').textContent = lang.viewImages;
+  }
+  if (document.getElementById('applyNowBtn')) {
+    document.getElementById('applyNowBtn').textContent = lang.apply;
+  }
+  if (document.getElementById('formTitle')) {
+    document.getElementById('formTitle').textContent = lang.formTitle;
   }
 }
 
-function goBack() {
-  // Hide all main screens
-  document.getElementById("promptScreen").classList.add("hidden");
-  document.getElementById("applicationForm")?.classList.add("hidden");
-  document.getElementById("galleryScreen")?.classList.add("hidden");
-
-  // Show the modal
-  document.getElementById("languageModal").style.display = "flex";
+function goBackToGallery() {
+  document.getElementById("slideshow").classList.add("hidden");
+  document.getElementById("mainPage").classList.remove("hidden");
 }
+
+function goBack() {
+  // Hide all screens and show language modal
+  document.querySelectorAll('section').forEach(sec => {
+    sec.classList.add('hidden');
+  });
+  showLanguageModal();
+}
+
+// Initialize the page when loaded
+window.onload = initializePage;
