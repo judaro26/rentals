@@ -125,35 +125,6 @@ let language = localStorage.getItem("lang");
 let currentSlide = 0;
 let currentType = 'main';
 
-window.onload = () => {
-  if (!language) {
-    document.getElementById("languageModal").style.display = "flex";
-  } else {
-    document.getElementById("promptScreen").classList.remove("hidden");
-    updateLabels();
-  }
-};
-
-function setLanguage(lang) {
-  language = lang;
-  localStorage.setItem("lang", lang);
-  document.getElementById("languageModal").style.display = "none";
-  document.getElementById("promptScreen").classList.remove("hidden");
-  updateLabels();
-}
-
-function goToGallery() {
-  document.getElementById('promptScreen').classList.add('hidden');
-  document.getElementById('mainPage').classList.remove('hidden');
-  updateLabels();
-}
-
-function goToApplication() {
-  document.getElementById("promptScreen").classList.add("hidden");
-  document.getElementById("applicationForm").classList.remove("hidden");
-  updateLabels();
-}
-
 function openSlideshow(type) {
   currentType = type;
   currentSlide = 0;
@@ -163,7 +134,6 @@ function openSlideshow(type) {
   // Show the slideshow screen
   showSection("slideshow");
 }
-
 
 function showSlide() {
   const container = document.getElementById("slidesContainer");
@@ -178,21 +148,63 @@ function showSlide() {
   `;
 }
 
-function nextSlide() {
-  if (currentSlide < slides[currentType].length - 1) {
-    currentSlide++;
-    console.log("Next Slide:", currentSlide);
-    showSlide();
+function setLanguage(lang) {
+  language = lang;
+  localStorage.setItem("lang", lang);
+  document.getElementById("languageModal").classList.add("hidden");
+  document.getElementById("viewImagesBtn").textContent = lang === "es" ? "Ver Imágenes" : "View Images";
+  document.getElementById("applyNowBtn").textContent = lang === "es" ? "Solicitar Ahora" : "Apply Now";
+  document.getElementById("formTitle").textContent = lang === "es" ? "Solicitud de Alquiler" : "Rental Application";
+  document.getElementById("promptTitle").textContent = lang === "es" ? "¿Qué te gustaría hacer?" : "What would you like to do?";
+  showSection("promptScreen");
+}
+
+function goToGallery() {
+  showSection("mainPage");
+}
+
+function goToApplication() {
+  showSection("applicationForm");
+}
+
+function goBack() {
+  if (previousSection) {
+    showSection(previousSection);
+  } else {
+    showSection("promptScreen");
   }
 }
 
-function prevSlide() {
-  if (currentSlide > 0) {
-    currentSlide--;
-    console.log("Previous Slide:", currentSlide);
-    showSlide();
-  }
+function openSlideshow(type) {
+  currentType = type;
+  currentSlide = 0;
+  updateSlide();
+  showSection("slideshow");
 }
+
+function updateSlide() {
+  const slide = slides[currentType][currentSlide];
+  document.getElementById("slideImage").src = slide.src;
+  document.getElementById("slideCaption").textContent = slide[language];
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slides[currentType].length;
+  updateSlide();
+}
+
+function prevSlide() {
+  currentSlide = (currentSlide - 1 + slides[currentType].length) % slides[currentType].length;
+  updateSlide();
+}
+
+window.onload = () => {
+  if (!language) {
+    showSection("languageModal");
+  } else {
+    setLanguage(language);
+  }
+};
 
 function updateLabels() {
   const mainText = language === 'es' ? 'Casa Principal' : 'Main House';
@@ -210,12 +222,7 @@ function updateLabels() {
   document.getElementById('formTitle').textContent = formTitle;
 }
 
-function prevSlide() {
-  if (currentSlide > 0) {
-    currentSlide--;
-    showSlide();
-  }
-}
+
 
 function goBack() {
   // Hide all main screens
