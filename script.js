@@ -241,12 +241,16 @@ function showPropertiesForLocation(location) {
 }
 
 function viewPropertyGallery(location, propertyId) {
+  currentLocation = location;
   currentProperty = propertyId;
   currentSlide = 0;
-  showSlide(location, propertyId);
   
-  // Hide current screen and show slideshow
-  document.getElementById("dynamicPropertiesScreen").classList.add("hidden");
+  // Hide current screens
+  document.getElementById("mainPage")?.classList.add("hidden");
+  document.getElementById("dynamicPropertiesScreen")?.classList.add("hidden");
+  
+  // Show the slideshow
+  showSlide(location, propertyId);
   document.getElementById("slideshow").classList.remove("hidden");
 }
 
@@ -311,6 +315,16 @@ function goBackToProperties() {
 function goBackToLanguage() {
   document.getElementById("locationScreen").classList.add("hidden");
   document.getElementById("languageModal").style.display = "flex";
+}
+
+function goBackFromSlideshow() {
+  document.getElementById("slideshow").classList.add("hidden");
+  
+  if (currentLocation === 'stockton') {
+    document.getElementById("mainPage").classList.remove("hidden");
+  } else {
+    document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+  }
 }
 
 // Existing Stockton-specific functions
