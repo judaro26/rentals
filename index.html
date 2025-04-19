@@ -1,141 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Select Language</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      height: 100vh;
-      background: url('./images/homeScreen.jpeg') no-repeat center center/cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .language-selector {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 2rem 3rem;
-      border-radius: 16px;
-      text-align: center;
-      color: white;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
-    }
-
-    .language-selector h1 {
-      margin-bottom: 1rem;
-      font-size: 1.8rem;
-    }
-
-    .lang-btn {
-      background-color: white;
-      color: #333;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      margin: 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .lang-btn:hover {
-      background-color: #f0f0f0;
-    }
-
-  #applicationForm input, 
-  #applicationForm textarea {
-    width: 100%;
-    padding: 0.75rem;
-    margin: 0.5rem 0;
-    border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-  }
-
-  #applicationForm form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #applicationForm textarea {
-    resize: none;
-  }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Rental</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Language Modal */
+        #languageModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            color: white;
+        }
+        
+        #languageModal h2 {
+            margin-bottom: 30px;
+        }
+        
+        #languageModal button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            min-width: 200px;
+        }
+        
+        /* Prompt Screen */
+        #promptScreen {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        #promptScreen h2 {
+            margin-bottom: 30px;
+        }
+        
+        #promptScreen button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            min-width: 200px;
+        }
+        
+        /* Main Gallery Page */
+        #mainPage {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        #mainPage h2 {
+            margin-bottom: 30px;
+        }
+        
+        #mainPage button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            background: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            min-width: 200px;
+        }
+        
+        /* Application Form */
+        #applicationForm {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        #applicationForm h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #applicationForm form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #applicationForm input, #applicationForm select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        #applicationForm button {
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Slideshow */
+        #slideshow {
+            max-width: 800px;
+            margin: 30px auto;
+            text-align: center;
+        }
+        
+        #slidesContainer img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .caption {
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        #slideshow button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* Back button */
+        .back-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #9E9E9E;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-   <!-- Language Modal -->
-  <div id="languageModal" class="modal">
-    <div class="modal-content">
-      <h2>Select Language / Selecciona idioma</h2>
-      <div class="button-group">
+    <!-- Language Selection Modal -->
+    <div id="languageModal">
+        <h2>Select Language / Seleccionar Idioma</h2>
         <button onclick="setLanguage('en')">English</button>
         <button onclick="setLanguage('es')">Español</button>
-        <button onclick="goBack()">← Back</button>
-      </div>
     </div>
-  </div>
-
 
     <!-- Prompt Screen -->
-  <div id="promptScreen" class="hidden language-selector">
-    <h2 id="promptTitle">What would you like to do?</h2>
-    <div class="button-group">
-      <button id="viewImagesBtn" class="lang-btn" onclick="goToGallery()"></button>
-      <button id="applyNowBtn" class="lang-btn" onclick="goToApplication()"></button>
-      <button class="lang-btn" onclick="goBack()">← Back</button>
-    </div>
-  </div>
+    <section id="promptScreen" class="hidden">
+        <h2 id="promptTitle">What would you like to do?</h2>
+        <button id="viewImagesBtn" onclick="goToGallery()">View Images</button>
+        <button id="applyNowBtn" onclick="goToApplication()">Apply for this Property</button>
+        <button class="back-button" onclick="goBack()">Back / Atrás</button>
+    </section>
 
- 
-    <!-- Main Page -->
-    <div id="mainPage" class="main hidden">
-      <h1 class="title">Choose a Property</h1>
-      <div class="button-container">
+    <!-- Main Gallery Page -->
+    <section id="mainPage" class="hidden">
+        <h2 id="galleryTitle">Select a Property</h2>
         <button id="mainHouseBtn" onclick="openSlideshow('main')">Main House</button>
         <button id="studioBtn" onclick="openSlideshow('studio')">Studio</button>
-        <button onclick="goBack()">← Back</button>
-      </div>
-    </div>
+        <button class="back-button" onclick="showPromptScreen()">Back / Atrás</button>
+    </section>
 
+    <!-- Application Form -->
+    <section id="applicationForm" class="hidden">
+        <h2 id="formTitle">Rental Application</h2>
+        <form>
+            <input type="text" placeholder="Full Name / Nombre Completo" required>
+            <input type="email" placeholder="Email" required>
+            <input type="tel" placeholder="Phone Number / Número de Teléfono" required>
+            <select required>
+                <option value="">Select Property Type / Tipo de Propiedad</option>
+                <option value="main">Main House / Casa Principal</option>
+                <option value="studio">Studio / Estudio</option>
+            </select>
+            <button type="submit">Submit Application / Enviar Solicitud</button>
+        </form>
+        <button class="back-button" onclick="showPromptScreen()">Back / Atrás</button>
+    </section>
 
-   <!-- Slideshow -->
-   <div id="slideshow" class="slideshow hidden">
-     <div id="slidesContainer"></div>
-     <button onclick="goBack()">← Back</button>
-   </div>
+    <!-- Slideshow -->
+    <section id="slideshow" class="hidden">
+        <div id="slidesContainer"></div>
+        <button class="back-button" onclick="goBackToGallery()">Back to Gallery / Volver a la galería</button>
+    </section>
 
-  <!-- Rental Application -->
-  <div id="applicationForm" class="hidden">
-     <button onclick="goBack()">← Back</button>
-    <h2 id="formTitle">Rental Application</h2>
-    <form>
-      <input type="text" placeholder="Full Name" required>
-      <input type="email" placeholder="Email Address" required>
-      <input type="tel" placeholder="Phone Number" required>
-      <input type="text" placeholder="Date of Birth" required>
-      <input type="text" placeholder="Current Address" required>
-      <input type="text" placeholder="Employer Name" required>
-      <input type="text" placeholder="Monthly Income" required>
-      <input type="text" placeholder="Current Landlord Name" required>
-      <input type="tel" placeholder="Landlord Phone Number" required>
-      <input type="text" placeholder="Reason for Moving" required>
-      <textarea placeholder="Other Occupants (names, ages)"></textarea>
-      <textarea placeholder="Pets? (type, breed, weight)"></textarea>
-      <textarea placeholder="Vehicles (make/model/year/license)"></textarea>
-      <textarea placeholder="Emergency Contact (name, phone, relationship)"></textarea>
-      <button type="submit">Submit Application</button>
-    </form>
-  </div>
- 
-   <script src="script.js"></script>
- </body>
+    <script src="script.js"></script>
+</body>
 </html>
