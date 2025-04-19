@@ -158,8 +158,12 @@ function openSlideshow(type) {
   currentType = type;
   currentSlide = 0;
   showSlide();
+  // Hide the property selection screen
+  document.getElementById("mainPage").classList.add("hidden");
+  // Show the slideshow screen
   showSection("slideshow");
 }
+
 
 function showSlide() {
   const container = document.getElementById("slidesContainer");
@@ -172,6 +176,22 @@ function showSlide() {
       ${currentSlide < slides[currentType].length - 1 ? '<button onclick="nextSlide()">Next</button>' : ''}
     </div>
   `;
+}
+
+function nextSlide() {
+  if (currentSlide < slides[currentType].length - 1) {
+    currentSlide++;
+    console.log("Next Slide:", currentSlide);
+    showSlide();
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 0) {
+    currentSlide--;
+    console.log("Previous Slide:", currentSlide);
+    showSlide();
+  }
 }
 
 function updateLabels() {
