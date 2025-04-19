@@ -575,6 +575,75 @@
             padding: 1.5rem 1rem;
         }
     }
+
+    /* Location Selection Styles */
+    #locationScreen {
+      padding: 4rem 0;
+      animation: fadeIn 0.6s ease;
+    }
+    
+    #locationTitle {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: var(--primary);
+    }
+    
+    .location-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .location-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    
+    .location-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .location-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .location-info {
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .location-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .select-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: var(--secondary);
+      color: white;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .select-btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
 </style>
 </head>
 <body>
@@ -590,6 +659,32 @@
             </button>
         </div>
     </div>
+
+    <!-- Property Selection -->
+    <section id="locationScreen" class="hidden">
+      <div class="container">
+        <h2 id="locationTitle">Select Location</h2>
+        <div class="location-cards">
+          <div class="location-card" onclick="selectLocation('stockton')">
+            <div class="location-img" style="background-image: url('images/stockton.jpg');"></div>
+            <div class="location-info">
+              <h3>Stockton, CA</h3>
+              <button class="select-btn">View Properties</button>
+            </div>
+          </div>
+          <div class="location-card" onclick="selectLocation('fairfield')">
+            <div class="location-img" style="background-image: url('images/fairfield.jpg');"></div>
+            <div class="location-info">
+              <h3>Fairfield, CA</h3>
+              <button class="select-btn">View Properties</button>
+            </div>
+          </div>
+        </div>
+        <button class="back-btn" onclick="goBackToLanguage()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+      </div>
+    </section>
 
     <!-- Prompt Screen -->
     <section id="promptScreen" class="hidden">
