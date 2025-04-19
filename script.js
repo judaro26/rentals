@@ -264,5 +264,80 @@ function goBack() {
   showLanguageModal();
 }
 
+
+// Add to your existing script.js
+document.addEventListener('DOMContentLoaded', function() {
+    // Show/hide pet details based on selection
+    document.querySelectorAll('input[name="pets"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.getElementById('petDetails').style.display = 
+                this.value === 'yes' ? 'block' : 'none';
+        });
+    });
+
+    // Form submission handler
+    document.getElementById('rentalApplication').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Here you would typically send the form data to your server
+        // For now, we'll just show an alert
+        alert(language === 'es' ? 
+            'Solicitud enviada con éxito. Nos pondremos en contacto con usted pronto.' : 
+            'Application submitted successfully. We will contact you soon.');
+        
+        // Reset form and go back to prompt screen
+        this.reset();
+        showPromptScreen();
+    });
+
+    // Update form labels when language changes
+    window.updateLabels = function() {
+        const translations = {
+            en: {
+                personalInfoTitle: "Personal Information",
+                employmentTitle: "Employment Information",
+                rentalHistoryTitle: "Rental History",
+                vehicleTitle: "Vehicle Information",
+                emergencyContactTitle: "Emergency Contact",
+                additionalInfoTitle: "Additional Information",
+                termsTitle: "Terms & Conditions",
+                incomeProofLabel: "Proof of Income (Check all that apply)",
+                evictionLabel: "Have you ever been evicted?",
+                petsLabel: "Will you have pets?",
+                smokingLabel: "Do you smoke?",
+                submitBtn: "Submit Application"
+            },
+            es: {
+                personalInfoTitle: "Información Personal",
+                employmentTitle: "Información de Empleo",
+                rentalHistoryTitle: "Historial de Alquiler",
+                vehicleTitle: "Información del Vehículo",
+                emergencyContactTitle: "Contacto de Emergencia",
+                additionalInfoTitle: "Información Adicional",
+                termsTitle: "Términos y Condiciones",
+                incomeProofLabel: "Comprobante de Ingresos (Marque todo lo que corresponda)",
+                evictionLabel: "¿Alguna vez ha sido desalojado?",
+                petsLabel: "¿Tendrá mascotas?",
+                smokingLabel: "¿Fuma usted?",
+                submitBtn: "Enviar Solicitud"
+            }
+        };
+
+        const lang = translations[language] || translations.en;
+        
+        // Update all labels
+        for (const [key, value] of Object.entries(lang)) {
+            const element = document.getElementById(key);
+            if (element) element.textContent = value;
+        }
+
+        // Update submit button text
+        const submitBtn = document.getElementById('submitApplicationBtn');
+        if (submitBtn) {
+            submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i> ${lang.submitBtn}`;
+        }
+    };
+});
+
 // Initialize the page when loaded
 window.onload = initializePage;
