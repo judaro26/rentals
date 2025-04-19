@@ -222,8 +222,6 @@ function updateLabels() {
   document.getElementById('formTitle').textContent = formTitle;
 }
 
-
-
 function goBack() {
   // Hide all main screens
   document.getElementById("promptScreen").classList.add("hidden");
