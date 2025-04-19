@@ -140,11 +140,13 @@ window.onload = () => {
 };
 
 function initializePage() {
+  // Hide all sections initially
   document.querySelectorAll('section').forEach(sec => {
     sec.classList.add('hidden');
   });
   document.getElementById("languageModal").style.display = "none";
   
+  // Check if language is set
   if (!localStorage.getItem("lang")) {
     showLanguageModal();
   } else {
@@ -179,8 +181,10 @@ function selectLocation(location) {
   document.getElementById("locationScreen").classList.add("hidden");
   
   if (location === 'stockton') {
+    // Show the existing prompt screen for Stockton
     document.getElementById("promptScreen").classList.remove("hidden");
   } else {
+    // For other locations, show properties directly
     showPropertiesForLocation(location);
   }
   
@@ -188,15 +192,13 @@ function selectLocation(location) {
 }
 
 function showPropertiesForLocation(location) {
-  document.querySelectorAll('section').forEach(sec => {
-    sec.classList.add('hidden');
-  });
-  
+  // Create or show properties screen
   let propertiesScreen = document.getElementById("dynamicPropertiesScreen");
   
   if (!propertiesScreen) {
     propertiesScreen = document.createElement('div');
     propertiesScreen.id = 'dynamicPropertiesScreen';
+    propertiesScreen.classList.add('hidden');
     document.body.appendChild(propertiesScreen);
   }
   
@@ -205,11 +207,12 @@ function showPropertiesForLocation(location) {
       <h2>${language === 'es' ? 'Propiedades en' : 'Properties in'} ${location.charAt(0).toUpperCase() + location.slice(1)}</h2>
       <div class="property-cards" id="${location}Properties"></div>
       <button class="back-btn" onclick="goBackToLocation()">
-        <i class="fas fa-arrow-left"></i> ${language === 'es' ? 'Volver a ubicaciones' : 'Back to locations'}
+        <i class="fas fa-arrow-left"></i> ${language === 'es' ? 'Atrás' : 'Back'}
       </button>
     </div>
   `;
   
+  // Populate with properties
   const propertiesGrid = document.getElementById(`${location}Properties`);
   const locationProperties = properties[location];
   
@@ -242,9 +245,11 @@ function viewPropertyGallery(location, propertyId) {
   currentProperty = propertyId;
   currentSlide = 0;
   
+  // Hide current screens
   document.getElementById("mainPage")?.classList.add("hidden");
   document.getElementById("dynamicPropertiesScreen")?.classList.add("hidden");
   
+  // Show the slideshow
   showSlide(location, propertyId);
   document.getElementById("slideshow").classList.remove("hidden");
 }
@@ -262,7 +267,7 @@ function showSlide(location, propertyId) {
       <span class="slide-counter">${currentSlide + 1} / ${property.images.length}</span>
       ${currentSlide < property.images.length - 1 ? `<button class="slide-btn" onclick="nextSlide()">${language === 'es' ? 'Siguiente' : 'Next'} <i class="fas fa-chevron-right"></i></button>` : ''}
     </div>
-    <button class="back-btn" onclick="goBackFromSlideshow()">
+    <button class="back-btn" onclick="goBackToProperties()">
       <i class="fas fa-arrow-left"></i> ${language === 'es' ? 'Volver a propiedades' : 'Back to properties'}
     </button>
   `;
@@ -283,33 +288,46 @@ function prevSlide() {
   }
 }
 
-function goBackFromSlideshow() {
-  document.getElementById("slideshow").classList.add("hidden");
-  
-  if (currentLocation === 'stockton') {
-    document.getElementById("mainPage").classList.remove("hidden");
-  } else {
-    showPropertiesForLocation(currentLocation);
-  }
-}
-
 function applyForProperty(location, propertyId) {
   currentProperty = propertyId;
   document.getElementById("dynamicPropertiesScreen").classList.add("hidden");
   document.getElementById("applicationForm").classList.remove("hidden");
   updateLabels();
   
+  // Set the property type in the form
   const propertySelect = document.getElementById("propertyType");
   if (propertySelect) {
     propertySelect.value = propertyId;
   }
 }
 
+// Navigation functions
 function goBackToLocation() {
   document.getElementById("dynamicPropertiesScreen").classList.add("hidden");
   document.getElementById("locationScreen").classList.remove("hidden");
 }
 
+function goBackToProperties() {
+  document.getElementById("slideshow").classList.add("hidden");
+  document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+}
+
+function goBackToLanguage() {
+  document.getElementById("locationScreen").classList.add("hidden");
+  document.getElementById("languageModal").style.display = "flex";
+}
+
+function goBackFromSlideshow() {
+  document.getElementById("slideshow").classList.add("hidden");
+  
+  if (currentLocation === 'stockton') {
+    document.getElementById("mainPage").classList.remove("hidden");
+  } else {
+    document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+  }
+}
+
+// Existing Stockton-specific functions
 function goToGallery() {
   document.getElementById('promptScreen').classList.add('hidden');
   document.getElementById('mainPage').classList.remove('hidden');
@@ -330,15 +348,21 @@ function showPromptScreen() {
   updateLabels();
 }
 
+// Update all labels based on current language
 function updateLabels() {
   const translations = {
     en: {
+      // Location screen
       locationTitle: "Select Location",
       stockton: "Stockton, CA",
       fairfield: "Fairfield, CA",
+      
+      // Prompt screen
       promptTitle: "What would you like to do?",
       viewImages: "View Images",
       applyNow: "Apply Now",
+      
+      // Form
       formTitle: "Rental Application",
       fullName: "Full Name",
       email: "Email Address",
@@ -349,12 +373,17 @@ function updateLabels() {
       submitBtn: "Submit Application"
     },
     es: {
+      // Location screen
       locationTitle: "Seleccione Ubicación",
       stockton: "Stockton, CA",
       fairfield: "Fairfield, CA",
+      
+      // Prompt screen
       promptTitle: "¿Qué te gustaría hacer?",
       viewImages: "Ver Imágenes",
       applyNow: "Aplicar Ahora",
+      
+      // Form
       formTitle: "Solicitud de Alquiler",
       fullName: "Nombre Completo",
       email: "Correo Electrónico",
@@ -368,6 +397,7 @@ function updateLabels() {
 
   const lang = translations[language] || translations.en;
   
+  // Update all elements
   for (const [key, value] of Object.entries(lang)) {
     const elements = document.querySelectorAll(`[id="${key}"]`);
     elements.forEach(el => {
@@ -379,6 +409,7 @@ function updateLabels() {
     });
   }
 
+  // Update Stockton property buttons if on mainPage
   if (document.getElementById('mainHouseBtn') && properties.stockton.main) {
     document.getElementById('mainHouseBtn').textContent = properties.stockton.main.title[language];
     document.querySelector('#mainPage .property-card:nth-child(1) p').textContent = properties.stockton.main.description[language];
@@ -390,14 +421,19 @@ function updateLabels() {
   }
 }
 
+// Form submission handler
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('rentalApplication');
   if (form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      // Show success message
       alert(language === 'es' ? 
         'Solicitud enviada con éxito. Nos pondremos en contacto con usted pronto.' : 
         'Application submitted successfully. We will contact you soon.');
+      
+      // Reset form and go back to properties
       this.reset();
       if (currentLocation === 'stockton') {
         showPromptScreen();
@@ -407,6 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Pet details toggle
   document.querySelectorAll('input[name="pets"]').forEach(radio => {
     radio.addEventListener('change', function() {
       document.getElementById('petDetails').style.display = 
