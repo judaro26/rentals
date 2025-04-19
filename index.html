@@ -431,6 +431,88 @@
                 padding: 2rem 1.5rem;
             }
         }
+
+        /* Enhanced Form Styles */
+        .form-section {
+            border: 1px solid #e0e0e0;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background: #f9f9f9;
+        }
+        
+        .form-section legend {
+            font-weight: 700;
+            color: var(--primary);
+            padding: 0 0.5rem;
+            width: auto;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-group-text {
+            padding: 0.75rem;
+            background: #e9ecef;
+            border: 1px solid #ced4da;
+            border-right: none;
+            border-radius: var(--radius) 0 0 var(--radius);
+        }
+        
+        .input-group .form-control {
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        
+        .form-check {
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-check-input {
+            margin-right: 0.5rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        /* Conditional fields */
+        #petDetails {
+            padding: 1rem;
+            background: #f0f8ff;
+            border-radius: var(--radius);
+            margin-top: 1rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .form-actions {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+            
+            .submit-btn, .back-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -500,35 +582,307 @@
     <!-- Application Form -->
     <section id="applicationForm" class="hidden">
         <div class="container">
-            <h2 id="formTitle">Rental Application</h2>
-            <form>
-                <div class="form-group">
-                    <label for="fullName" id="fullNameLabel">Full Name</label>
-                    <input type="text" id="fullName" class="form-control" placeholder="John Smith" required>
+            <h2 id="formTitle">Stockton Rental Application</h2>
+            
+            <form id="rentalApplication">
+                <!-- Personal Information Section -->
+                <fieldset class="form-section">
+                    <legend id="personalInfoTitle">Personal Information</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ssn">SSN (Last 4 Digits)</label>
+                            <input type="text" id="ssn" class="form-control" pattern="\d{4}" maxlength="4" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="currentAddress">Current Address</label>
+                        <textarea id="currentAddress" class="form-control" rows="2" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currentRent">Current Rent Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" id="currentRent" class="form-control" min="0" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="moveInDate">Desired Move-In Date</label>
+                            <input type="date" id="moveInDate" class="form-control" required>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <!-- Employment Information -->
+                <fieldset class="form-section">
+                    <legend id="employmentTitle">Employment Information</legend>
+                    
+                    <div class="form-group">
+                        <label for="employerName">Current Employer</label>
+                        <input type="text" id="employerName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" id="jobTitle" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="employmentDuration">Duration of Employment</label>
+                            <input type="text" id="employmentDuration" class="form-control" placeholder="e.g., 2 years" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="employerAddress">Employer Address</label>
+                        <textarea id="employerAddress" class="form-control" rows="2" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="supervisorName">Supervisor Name</label>
+                            <input type="text" id="supervisorName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supervisorPhone">Supervisor Phone</label>
+                            <input type="tel" id="supervisorPhone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monthlyIncome">Gross Monthly Income</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" id="monthlyIncome" class="form-control" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="incomeProofLabel">Proof of Income</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="payStubs">
+                            <label class="form-check-label" for="payStubs">Pay Stubs (Last 2 Months)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bankStatements">
+                            <label class="form-check-label" for="bankStatements">Bank Statements</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="taxReturns">
+                            <label class="form-check-label" for="taxReturns">Tax Returns</label>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <!-- Rental History -->
+                <fieldset class="form-section">
+                    <legend id="rentalHistoryTitle">Rental History</legend>
+                    
+                    <div class="form-group">
+                        <label for="previousLandlord">Previous Landlord Name</label>
+                        <input type="text" id="previousLandlord" class="form-control">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="previousLandlordPhone">Landlord Phone</label>
+                            <input type="tel" id="previousLandlordPhone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="previousRent">Previous Rent Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" id="previousRent" class="form-control" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reasonForLeaving">Reason for Leaving</label>
+                        <textarea id="reasonForLeaving" class="form-control" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="evictionLabel">Have you ever been evicted?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="eviction" id="evictionYes" value="yes">
+                            <label class="form-check-label" for="evictionYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="eviction" id="evictionNo" value="no" checked>
+                            <label class="form-check-label" for="evictionNo">No</label>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <!-- Vehicle Information -->
+                <fieldset class="form-section">
+                    <legend id="vehicleTitle">Vehicle Information</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="make">Make</label>
+                            <input type="text" id="make" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Model</label>
+                            <input type="text" id="model" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="number" id="year" class="form-control" min="1900" max="2023">
+                        </div>
+                        <div class="form-group">
+                            <label for="licensePlate">License Plate</label>
+                            <input type="text" id="licensePlate" class="form-control">
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <!-- Emergency Contact -->
+                <fieldset class="form-section">
+                    <legend id="emergencyContactTitle">Emergency Contact</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emergencyName">Full Name</label>
+                            <input type="text" id="emergencyName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyRelation">Relationship</label>
+                            <input type="text" id="emergencyRelation" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emergencyPhone">Phone Number</label>
+                            <input type="tel" id="emergencyPhone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyEmail">Email</label>
+                            <input type="email" id="emergencyEmail" class="form-control">
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <!-- Additional Information -->
+                <fieldset class="form-section">
+                    <legend id="additionalInfoTitle">Additional Information</legend>
+                    
+                    <div class="form-group">
+                        <label for="occupants">Number of Occupants</label>
+                        <input type="number" id="occupants" class="form-control" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="petsLabel">Will you have pets?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pets" id="petsYes" value="yes">
+                            <label class="form-check-label" for="petsYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pets" id="petsNo" value="no" checked>
+                            <label class="form-check-label" for="petsNo">No</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="petDetails" style="display: none;">
+                        <label for="petDescription">Pet Description (Type, Breed, Weight)</label>
+                        <textarea id="petDescription" class="form-control" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="smokingLabel">Do you smoke?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="smoking" id="smokingYes" value="yes">
+                            <label class="form-check-label" for="smokingYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="smoking" id="smokingNo" value="no" checked>
+                            <label class="form-check-label" for="smokingNo">No</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additionalInfo">Additional Comments</label>
+                        <textarea id="additionalInfo" class="form-control" rows="3"></textarea>
+                    </div>
+                </fieldset>
+                
+                <!-- Terms and Conditions -->
+                <fieldset class="form-section">
+                    <legend id="termsTitle">Terms & Conditions</legend>
+                    
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="creditCheck" required>
+                            <label class="form-check-label" for="creditCheck">
+                                I authorize a credit/background check (Fee may apply)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                            <label class="form-check-label" for="termsAgreement">
+                                I certify that all information provided is true and complete
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="stocktonDisclosure" required>
+                            <label class="form-check-label" for="stocktonDisclosure">
+                                I acknowledge I have received the City of Stockton Tenant Rights information
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" id="submitApplicationBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+                    <button type="button" class="back-btn" onclick="showPromptScreen()">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="email" id="emailLabel">Email Address</label>
-                    <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone" id="phoneLabel">Phone Number</label>
-                    <input type="tel" id="phone" class="form-control" placeholder="(123) 456-7890" required>
-                </div>
-                <div class="form-group">
-                    <label for="property" id="propertyLabel">Property Interest</label>
-                    <select id="property" class="form-control" required>
-                        <option value="">Select a property</option>
-                        <option value="main">Main House</option>
-                        <option value="studio">Studio</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    Submit Application
-                </button>
             </form>
-            <button class="back-btn" onclick="showPromptScreen()">
-                <i class="fas fa-arrow-left"></i> Back
-            </button>
         </div>
     </section>
 
