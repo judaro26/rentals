@@ -192,15 +192,35 @@ function selectLocation(location) {
 }
 
 function showPropertiesForLocation(location) {
+  // Hide all other sections first
+  document.querySelectorAll('section').forEach(sec => {
+    sec.classList.add('hidden');
+  });
+  
   // Create or show properties screen
   let propertiesScreen = document.getElementById("dynamicPropertiesScreen");
   
   if (!propertiesScreen) {
     propertiesScreen = document.createElement('div');
     propertiesScreen.id = 'dynamicPropertiesScreen';
-    propertiesScreen.classList.add('hidden');
     document.body.appendChild(propertiesScreen);
   }
+  
+  propertiesScreen.innerHTML = `
+    <div class="container">
+      <h2>${language === 'es' ? 'Propiedades en' : 'Properties in'} ${location.charAt(0).toUpperCase() + location.slice(1)}</h2>
+      <div class="property-cards" id="${location}Properties"></div>
+      <button class="back-btn" onclick="goBackToLocation()">
+        <i class="fas fa-arrow-left"></i> ${language === 'es' ? 'Volver a ubicaciones' : 'Back to locations'}
+      </button>
+    </div>
+  `;
+  
+  // Populate with properties...
+  // ... (keep the rest of your existing property loading code)
+  
+  propertiesScreen.classList.remove('hidden');
+}
   
   propertiesScreen.innerHTML = `
     <div class="container">
@@ -321,9 +341,11 @@ function goBackFromSlideshow() {
   document.getElementById("slideshow").classList.add("hidden");
   
   if (currentLocation === 'stockton') {
+    // For Stockton, go back to the main properties screen
     document.getElementById("mainPage").classList.remove("hidden");
   } else {
-    document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+    // For other locations, show the dynamic properties screen
+    showPropertiesForLocation(currentLocation);
   }
 }
 
