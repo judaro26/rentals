@@ -740,13 +740,14 @@
     <section id="applicationForm" class="hidden">
         <div class="container">
             <h2 id="formTitle">Rental Application</h2>
-            <form <form 
-                  name="rental-application"
-                  method="POST"
-                  netlify
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
+                <form name="rental-application" 
+                      method="POST"
+                      netlify
+                      data-netlify="true"
+                      data-netlify-honeypot="bot-field"
+                      action="#form-success"
                 >
+                <input type="hidden" name="form-name" value="rental-application">
                 <p class="hidden">
                     <label>Don't fill this out if you're human: <input name="bot-field"></label>
                 </p>
@@ -1085,5 +1086,61 @@
     </footer>
 
     <script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form submission handler
+    const form = document.getElementById('rentalApplication');
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('#submitApplicationBtn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Submitting...`;
+            
+            try {
+                // Manually create form data including hidden fields
+                const formData = new FormData(form);
+                formData.append('form-name', 'rental-application');
+                
+                // Submit to Netlify
+                const response = await fetch('/', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/x-www-form-urlencoded' 
+                    },
+                    body: new URLSearchParams(formData).toString()
+                });
+                
+                if (response.ok) {
+                    // Show success message
+                    document.getElementById('applicationForm').classList.add('hidden');
+                    document.getElementById('form-success').classList.remove('hidden');
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('applicationForm').classList.add('hidden');
+                document.getElementById('form-error').classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+    }
+
+    // Pet details toggle
+    document.querySelectorAll('input[name="pets"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.getElementById('petDetails').style.display = 
+                this.value === 'yes' ? 'block' : 'none';
+        });
+    });
+});
+</script>
 </body>
 </html>
