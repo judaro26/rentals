@@ -118,7 +118,7 @@ const properties = {
       title: { en: "Fairfield Apartment", es: "Apartamento de Fairfield" },
       description: { en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
       images: [
-        { src: 'images/fairfield/apartment1.jpg', en: "Fairfield Apartment - Living Room", es: "Apartamento de Fairfield - Sala de estar" },
+        { src: 'images/fairfield/fairfield.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
         { src: 'images/fairfield/apartment2.jpg', en: "Fairfield Apartment - Kitchen", es: "Apartamento de Fairfield - Cocina" }
       ]
     }
