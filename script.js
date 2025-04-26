@@ -103,7 +103,6 @@ function setLanguage(lang) {
 function selectLocation(location) {
   currentLocation = location;
   document.getElementById("locationScreen").classList.add("hidden");
-  
   if (location === 'stockton') {
     document.getElementById("promptScreen").querySelector("#promptTitle").textContent = language === 'es' ? "¿Qué te gustaría hacer?" : "What would you like to do?";
     document.getElementById("promptScreen").classList.remove("hidden");
@@ -117,15 +116,27 @@ function selectLocation(location) {
         <i class="fas fa-file-signature"></i> ${language === 'es' ? 'Aplicar para Propiedad' : 'Apply for Property'}
       </button>
     `;
+    const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
+    if (backBtnPrompt) {
+      backBtnPrompt.onclick = goBack; // Use the general goBack function
+    }
   } else if (location === 'fairfield') {
-    // For Fairfield, directly show the properties
-    showPropertiesForLocation(location);
-    return; // Exit early since we're showing properties directly
-  }
-  
-  const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
-  if (backBtnPrompt) {
-    backBtnPrompt.onclick = goBack;
+    document.getElementById("promptScreen").querySelector("#promptTitle").textContent = language === 'es' ? "¿Qué te gustaría hacer en Fairfield?" : "What would you like to do in Fairfield?";
+    document.getElementById("promptScreen").classList.remove("hidden");
+    // Update the action buttons for Fairfield
+    const actionButtons = document.getElementById("promptScreen").querySelector(".action-buttons");
+    actionButtons.innerHTML = `
+      <button class="action-btn" onclick="showPropertiesForLocation('${location}')">
+        <i class="fas fa-images"></i> ${language === 'es' ? 'Ver Propiedades' : 'View Properties'}
+      </button>
+      <button class="action-btn" onclick="applyForProperty('${location}', 'apartment')">
+        <i class="fas fa-file-signature"></i> ${language === 'es' ? 'Aplicar para Propiedad' : 'Apply for Property'}
+      </button>
+    `;
+    const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
+    if (backBtnPrompt) {
+      backBtnPrompt.onclick = goBack; // Use the general goBack function
+    }
   }
   updateLabels();
 }
