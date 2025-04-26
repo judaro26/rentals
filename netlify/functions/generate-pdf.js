@@ -1,61 +1,81 @@
-const fetch = require('node-fetch');
+// netlify/functions/generate-pdf.js
 const { PDFDocument, rgb } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
+const fetch = require('node-fetch');
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
+  // Only allow POST requests
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
+  }
+
   try {
-    // Parse the form submission data from the webhook
-    const formData = JSON.parse(event.body).payload.data;
+    const data = JSON.parse(event.body);
+    const formData = data.payload.data;
     
-    // Create a new PDF document
+    // Create PDF
     const pdfDoc = await PDFDocument.create();
     pdfDoc.registerFontkit(fontkit);
     
-    // Embed a font (using a default one or load your own)
-    const fontBytes = await fetch('https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Regular.ttf?raw=true').then(res => res.arrayBuffer());
+    // Load font (Roboto - you can replace with your preferred font)
+    const fontUrl = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Regular.ttf?raw=true';
+    const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
     const font = await pdfDoc.embedFont(fontBytes);
     
-    // Add a page
+    // Add page
     const page = pdfDoc.addPage([600, 800]);
     
-    // Draw the form data
+    // Helper function to draw text
     let y = 750;
-    const drawText = (text, size = 12) => {
-      page.drawText(text, { x: 50, y, size, font });
-      y -= size + 10;
+    const drawText = (text, size = 12, x = 50, bold = false) => {
+      page.drawText(text, { 
+        x, 
+        y, 
+        size, 
+        font,
+        color: rgb(0, 0, 0)
+      });
+      y -= size + (bold ? 15 : 10);
     };
     
-    // Add title
-    drawText(`Rental Application - ${formData['property-location']}`, 20);
+    // Header
+    drawText('RENTAL APPLICATION', 20, 50, true);
     y -= 20;
     
-    // Add all form fields
-    for (const [key, value] of Object.entries(formData)) {
-      if (value && typeof value === 'string') {
-        drawText(`${key}: ${value}`);
-      }
-    }
+    // Property Info
+    drawText('PROPERTY INFORMATION', 16, 50, true);
+    drawText(`Location: ${formData['property-location'] || 'N/A'}`);
+    drawText(`Property Type: ${formData['property-type'] || 'N/A'}`);
+    y -= 15;
     
-    // Save the PDF
+    // Personal Information
+    drawText('PERSONAL INFORMATION', 16, 50, true);
+    drawText(`Name: ${formData['first-name'] || ''} ${formData['last-name'] || ''}`);
+    drawText(`Email: ${formData.email || 'N/A'}`);
+    drawText(`Phone: ${formData.phone || 'N/A'}`);
+    // Add more fields as needed...
+    
+    // Save PDF
     const pdfBytes = await pdfDoc.save();
-    
-    // Convert to base64 for response
-    const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
     
     return {
       statusCode: 200,
       body: JSON.stringify({ 
-        pdf: pdfBase64,
-        filename: `application_${Date.now()}.pdf`
+        pdf: Buffer.from(pdfBytes).toString('base64'),
+        filename: `Rental_Application_${formData['first-name']}_${formData['last-name']}.pdf`
       }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ 
+        error: 'Failed to generate PDF',
+        details: error.message 
+      })
     };
   }
 };
