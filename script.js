@@ -305,8 +305,36 @@ function applyForProperty(location, propertyId) {
 
 // Navigation functions
 function goBackToLocation() {
-  document.getElementById("dynamicPropertiesScreen")?.classList.add("hidden");
-  document.getElementById("locationScreen").classList.remove("hidden");
+  console.log('Going back to location selection'); // Debug
+  
+  // Hide the properties screen
+  const propertiesScreen = document.getElementById("dynamicPropertiesScreen");
+  if (propertiesScreen) {
+    propertiesScreen.classList.add("hidden");
+  } else {
+    console.error("Properties screen not found");
+  }
+  
+  // Show the location selection screen
+  const locationScreen = document.getElementById("locationScreen");
+  if (locationScreen) {
+    locationScreen.classList.remove("hidden");
+  } else {
+    console.error("Location screen not found");
+  }
+  
+  // For Stockton specifically, we need to handle differently
+  if (currentLocation === 'stockton') {
+    const mainPage = document.getElementById("mainPage");
+    if (mainPage) {
+      mainPage.classList.add("hidden");
+    }
+    
+    const promptScreen = document.getElementById("promptScreen");
+    if (promptScreen) {
+      promptScreen.classList.remove("hidden");
+    }
+  }
 }
 
 function goBackFromSlideshow() {
@@ -352,9 +380,31 @@ function goBackToLanguage() {
 
 // Stockton-specific functions
 function goToGallery() {
+  // Hide prompt screen
   document.getElementById('promptScreen').classList.add('hidden');
-  document.getElementById('mainPage').classList.remove('hidden');
+  
+  // Show properties screen
+  const mainPage = document.getElementById('mainPage');
+  if (mainPage) {
+    mainPage.classList.remove('hidden');
+    
+    // Update the back button in mainPage to go back to prompt
+    const backBtn = mainPage.querySelector('.back-btn');
+    if (backBtn) {
+      backBtn.onclick = function() {
+        document.getElementById('mainPage').classList.add('hidden');
+        document.getElementById('promptScreen').classList.remove('hidden');
+      };
+    }
+  }
+  
   updateLabels();
+}
+
+
+function goBackToPrompt() {
+  document.getElementById('mainPage').classList.add('hidden');
+  document.getElementById('promptScreen').classList.remove('hidden');
 }
 
 function goToApplication() {
