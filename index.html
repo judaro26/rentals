@@ -1160,8 +1160,11 @@
 // Track if we've shown the success message
 let hasShownSuccess = false;
 
-// Language variable should be declared at the top level
-let language = localStorage.getItem("lang") || 'en'; // Only ONE declaration here
+// Language variable (only declared once)
+let language = localStorage.getItem("lang") || 'en';
+
+// Current location (missing in original script, used in handleRentalApplicationSubmit)
+let currentLocation = 'stockton'; // Default or fetch from storage if needed
 
 function showFormMessages() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -1201,30 +1204,33 @@ async function handleRentalApplicationSubmit(e) {
   try {
     const formData = new FormData(form);
 
+    // Submit to Netlify
     const netlifyResponse = await fetch(form.action, {
       method: 'POST',
-      body: formData
+      body: formData,
     });
 
     if (!netlifyResponse.ok) {
       throw new Error('Netlify form submission failed');
     }
 
+    // Generate PDF
     const pdfResponse = await fetch('/.netlify/functions/generate-pdf', {
       method: 'POST',
       body: JSON.stringify({
         payload: {
-          data: Object.fromEntries(formData)
-        }
+          data: Object.fromEntries(formData),
+        },
       }),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     const result = await pdfResponse.json();
 
     if (pdfResponse.ok) {
+      // Download PDF
       const link = document.createElement('a');
       link.href = `data:application/pdf;base64,${result.pdf}`;
       link.download = result.filename || `application_${Date.now()}.pdf`;
@@ -1232,6 +1238,7 @@ async function handleRentalApplicationSubmit(e) {
       link.click();
       document.body.removeChild(link);
 
+      // Show success message
       document.getElementById('form-messages')?.classList.remove('hidden');
       hasShownSuccess = true;
     } else {
@@ -1239,9 +1246,11 @@ async function handleRentalApplicationSubmit(e) {
     }
   } catch (error) {
     console.error('Error:', error);
-    alert(language === 'es'
-      ? 'Error al enviar la solicitud. Por favor intente nuevamente.'
-      : 'Error submitting application. Please try again.');
+    alert(
+      language === 'es'
+        ? 'Error al enviar la solicitud. Por favor intente nuevamente.'
+        : 'Error submitting application. Please try again.'
+    );
   } finally {
     submitBtn.innerHTML = originalText;
     submitBtn.disabled = false;
@@ -1249,15 +1258,26 @@ async function handleRentalApplicationSubmit(e) {
     if (hasShownSuccess) {
       form.reset();
 
+      // Redirect based on location (ensure `currentLocation` is defined)
       if (currentLocation === 'stockton') {
-        showPromptScreen();
+        showPromptScreen(); // Make sure this function exists
       } else {
-        showPropertiesForLocation(currentLocation);
+        showPropertiesForLocation(currentLocation); // Make sure this function exists
       }
     }
   }
 }
 
+// Helper functions (must be defined or removed if unused)
+function showPromptScreen() {
+  console.log('Redirecting to prompt screen...'); // Replace with actual logic
+}
+
+function showPropertiesForLocation(location) {
+  console.log(`Showing properties for ${location}...`); // Replace with actual logic
+}
+
+// DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize form submission
   const form = document.getElementById('rentalApplication');
