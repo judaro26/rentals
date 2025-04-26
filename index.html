@@ -1162,61 +1162,44 @@ let hasShownSuccess = false;
 // Language variable should be declared at the top level
 let language = localStorage.getItem("lang") || 'en';
 
-function handleFormSubmission() {
-  // Check URL parameters
+function showFormMessages() {
   const urlParams = new URLSearchParams(window.location.search);
-
-  // Only proceed if we have the submission indicator AND haven't shown the message yet
-  if (urlParams.has('form-submitted')) {  // Fixed: added missing closing parenthesis
-    if (!hasShownSuccess) {
-      // Show success message
-      document.getElementById('form-messages')?.classList.remove('hidden');
-      hasShownSuccess = true;
-    }
-
-    // Clear the URL parameters without reload
-    history.replaceState(null, null, window.location.pathname);
-
-    // Store in sessionStorage to prevent showing on refresh
+  if (urlParams.get('form-submitted') === 'true' && !hasShownSuccess) {
+    document.getElementById('form-messages')?.classList.remove('hidden');
+    hasShownSuccess = true;
     sessionStorage.setItem('formSubmitted', 'true');
+    history.replaceState(null, null, window.location.pathname); // Clear the parameter
+  } else if (sessionStorage.getItem('formSubmitted') === 'true' && !hasShownSuccess) {
+    document.getElementById('form-messages')?.classList.remove('hidden');
+    hasShownSuccess = true;
   }
 }
 
 function resetApplicationFlow() {
-  // Hide success message
   document.getElementById('form-messages')?.classList.add('hidden');
-
-  // Reset all screens to initial state
   document.getElementById('languageModal').style.display = 'flex';
   document.getElementById('applicationForm').classList.add('hidden');
   document.getElementById('promptScreen').classList.add('hidden');
   document.getElementById('locationScreen').classList.add('hidden');
   document.getElementById('mainPage').classList.add('hidden');
   document.getElementById('slideshow').classList.add('hidden');
-
-  // Clear the submission flag
   sessionStorage.removeItem('formSubmitted');
   hasShownSuccess = false;
 }
 
-// Modified form submission handler with better error handling
 async function handleRentalApplicationSubmit(e) {
   e.preventDefault();
-  
   const form = e.target;
   const submitBtn = document.getElementById('submitApplicationBtn');
   if (!form || !submitBtn) return;
 
-  // Show loading state
   const originalText = submitBtn.innerHTML;
   submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
   submitBtn.disabled = true;
-  
+
   try {
-    // Submit form normally to Netlify
     const formData = new FormData(form);
-    
-    // Submit to Netlify Forms
+
     const netlifyResponse = await fetch(form.action, {
       method: 'POST',
       body: formData
@@ -1226,7 +1209,6 @@ async function handleRentalApplicationSubmit(e) {
       throw new Error('Netlify form submission failed');
     }
 
-    // Call our PDF generation function
     const pdfResponse = await fetch('/.netlify/functions/generate-pdf', {
       method: 'POST',
       body: JSON.stringify({
@@ -1238,19 +1220,17 @@ async function handleRentalApplicationSubmit(e) {
         'Content-Type': 'application/json'
       }
     });
-    
+
     const result = await pdfResponse.json();
-    
+
     if (pdfResponse.ok) {
-      // Create download link for the PDF
       const link = document.createElement('a');
       link.href = `data:application/pdf;base64,${result.pdf}`;
       link.download = result.filename || `application_${Date.now()}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
-      // Show success message
+
       document.getElementById('form-messages')?.classList.remove('hidden');
       hasShownSuccess = true;
     } else {
@@ -1258,18 +1238,16 @@ async function handleRentalApplicationSubmit(e) {
     }
   } catch (error) {
     console.error('Error:', error);
-    alert(language === 'es' 
-      ? 'Error al enviar la solicitud. Por favor intente nuevamente.' 
+    alert(language === 'es'
+      ? 'Error al enviar la solicitud. Por favor intente nuevamente.'
       : 'Error submitting application. Please try again.');
   } finally {
-    // Reset form and button
     submitBtn.innerHTML = originalText;
     submitBtn.disabled = false;
-    
-    // Only reset form if submission was successful
+
     if (hasShownSuccess) {
       form.reset();
-      
+
       if (currentLocation === 'stockton') {
         showPromptScreen();
       } else {
@@ -1286,17 +1264,8 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', handleRentalApplicationSubmit);
   }
 
-  // Check if we should show the success message
-  if (sessionStorage.getItem('formSubmitted') === 'true' && !hasShownSuccess) {
-    handleFormSubmission();
-  }
-
-  // Clear the submission flag when leaving the page (only if success wasn't shown)
-  window.addEventListener('beforeunload', function() {
-    if (!hasShownSuccess) {
-      sessionStorage.removeItem('formSubmitted');
-    }
-  });
+  // Show form messages if needed
+  showFormMessages();
 
   // Pet details toggle
   document.querySelectorAll('input[name="pets"]').forEach(radio => {
