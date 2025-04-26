@@ -1202,18 +1202,16 @@ async function handleRentalApplicationSubmit(e) {
     // 2. Generate PDF
     console.log('Sending to PDF generator...');
     const pdfResponse = await fetch('/.netlify/functions/generate-pdf', {
-      method: 'POST',
-      body: JSON.stringify({
-        formData: formDataObj,
-        metadata: {
-          submittedAt: new Date().toISOString(),
-          language: language
-        }
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+          method: 'POST',
+          body: JSON.stringify({
+            payload: {
+              formData: Object.fromEntries(formData) // Changed 'data' to 'formData'
+            }
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
     const pdfResult = await pdfResponse.json();
     console.log('PDF response:', pdfResult);
