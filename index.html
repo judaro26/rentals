@@ -1156,11 +1156,12 @@
 
     <script src="script.js"></script>
 <script>
+<script>
 // Track if we've shown the success message
 let hasShownSuccess = false;
 
 // Language variable should be declared at the top level
-let language = localStorage.getItem("lang") || 'en';
+let language = localStorage.getItem("lang") || 'en'; // Only ONE declaration here
 
 function showFormMessages() {
   const urlParams = new URLSearchParams(window.location.search);
