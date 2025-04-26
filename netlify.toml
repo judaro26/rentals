@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/submission-thank-you"
+  to = "/?form-submitted=true"
+  status = 200
