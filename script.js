@@ -59,7 +59,7 @@ const properties = {
   }
 };
 // State variables
-let currentLocation = null;
+let currentLocation = 'stockton'; // Default value
 let language = localStorage.getItem("lang") || 'en';
 let currentSlide = 0;
 let currentProperty = null;
