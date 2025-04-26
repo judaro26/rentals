@@ -184,12 +184,43 @@ function selectLocation(location) {
   currentLocation = location;
   document.getElementById("locationScreen").classList.add("hidden");
   if (location === 'stockton') {
+    document.getElementById("promptScreen").querySelector("#promptTitle").textContent = language === 'es' ? "¿Qué te gustaría hacer?" : "What would you like to do?";
     document.getElementById("promptScreen").classList.remove("hidden");
-  } else {
-    showPropertiesForLocation(location);
+    // Update the action buttons for Stockton
+    const actionButtons = document.getElementById("promptScreen").querySelector(".action-buttons");
+    actionButtons.innerHTML = `
+      <button id="viewImagesBtn" class="action-btn" onclick="goToGallery()">
+        <i class="fas fa-images"></i> ${language === 'es' ? 'Ver Imágenes' : 'View Images'}
+      </button>
+      <button id="applyNowBtn" class="action-btn" onclick="goToApplication()">
+        <i class="fas fa-file-signature"></i> ${language === 'es' ? 'Aplicar para Propiedad' : 'Apply for Property'}
+      </button>
+    `;
+    const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
+    if (backBtnPrompt) {
+      backBtnPrompt.onclick = goBack; // Use the general goBack function
+    }
+  } else if (location === 'fairfield') {
+    document.getElementById("promptScreen").querySelector("#promptTitle").textContent = language === 'es' ? "¿Qué te gustaría hacer en Fairfield?" : "What would you like to do in Fairfield?";
+    document.getElementById("promptScreen").classList.remove("hidden");
+    // Update the action buttons for Fairfield
+    const actionButtons = document.getElementById("promptScreen").querySelector(".action-buttons");
+    actionButtons.innerHTML = `
+      <button class="action-btn" onclick="showPropertiesForLocation('${location}')">
+        <i class="fas fa-images"></i> ${language === 'es' ? 'Ver Propiedades' : 'View Properties'}
+      </button>
+      <button class="action-btn" onclick="applyForProperty('${location}', 'apartment')">
+        <i class="fas fa-file-signature"></i> ${language === 'es' ? 'Aplicar para Propiedad' : 'Apply for Property'}
+      </button>
+    `;
+    const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
+    if (backBtnPrompt) {
+      backBtnPrompt.onclick = goBack; // Use the general goBack function
+    }
   }
   updateLabels();
 }
+// Modify goBack function to handle navigation from the prompt screen correctly
 function goBack() {
   document.getElementById('promptScreen').classList.add('hidden');
   document.getElementById('locationScreen').classList.remove('hidden');
@@ -405,18 +436,14 @@ function goBackToLanguage() {
 function goToGallery() {
   // Hide prompt screen
   document.getElementById('promptScreen').classList.add('hidden');
-  // Show properties screen
+  // Show properties screen for Stockton
   const mainPage = document.getElementById('mainPage');
   if (mainPage) {
     mainPage.classList.remove('hidden');
-
     // Update the back button in mainPage to go back to prompt
     const backBtn = mainPage.querySelector('.back-btn');
     if (backBtn) {
-      backBtn.onclick = function() {
-        document.getElementById('mainPage').classList.add('hidden');
-        document.getElementById('promptScreen').classList.remove('hidden');
-      };
+      backBtn.onclick = goBackToPrompt;
     }
   }
   updateLabels();
@@ -425,9 +452,12 @@ function goBackToPrompt() {
   document.getElementById('mainPage').classList.add('hidden');
   document.getElementById('promptScreen').classList.remove('hidden');
 }
-function goToApplication() {
+function goToApplication(location = currentLocation, propertyId = currentProperty) {
   document.getElementById("promptScreen").classList.add("hidden");
   document.getElementById("applicationForm").classList.remove("hidden");
+  document.getElementById("propertyLocation").value = location; // Set hidden location field
+  document.getElementById("propertyType").value = propertyId; // Set hidden property type
+  document.getElementById("formLanguage").value = language; // Set hidden language field
   updateLabels();
 }
 function showPromptScreen() {
