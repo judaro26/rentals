@@ -1166,96 +1166,129 @@ async function handleRentalApplicationSubmit(e) {
   e.preventDefault();
   const form = e.target;
   const submitBtn = document.getElementById('submitApplicationBtn');
-  if (!form || !submitBtn) return;
+  
+  if (!form || !submitBtn) {
+    console.error('Form or submit button not found');
+    return;
+  }
 
+  // Store original button state
   const originalText = submitBtn.innerHTML;
+  const originalDisabled = submitBtn.disabled;
+  
+  // Update button to loading state
   submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
   submitBtn.disabled = true;
 
   try {
-    const formData = new FormData(form);
-    const formDataObj = Object.fromEntries(formData.entries());
+    // Convert FormData to object
+    const formData = Object.fromEntries(new FormData(form));
+    
+    // Debug: Log form data before submission
+    console.log('Form data collected:', formData);
 
-    console.log('Form data:', formDataObj); // Debug log
-
-    // 1. Submit to Netlify Forms
+    // 1. Submit to Netlify Forms (primary submission)
     const netlifyResponse = await fetch(form.action, {
       method: 'POST',
-      body: formData
+      body: new FormData(form),
     });
 
     if (!netlifyResponse.ok) {
-      throw new Error(`Netlify submission failed: ${netlifyResponse.status}`);
+      throw new Error(`Form submission failed with status ${netlifyResponse.status}`);
     }
 
-    // 2. Generate PDF
-    console.log('Attempting PDF generation...'); // Debug log
+    // 2. Prepare payload for PDF generation
+    const pdfPayload = {
+      formData: formData,
+      metadata: {
+        submittedAt: new Date().toISOString(),
+        language: language,
+        userAgent: navigator.userAgent
+      }
+    };
+
+    console.log('Sending to PDF generator:', pdfPayload);
+
+    // 3. Generate PDF
     const pdfResponse = await fetch('/.netlify/functions/generate-pdf', {
       method: 'POST',
-      body: JSON.stringify({
-        payload: {
-          data: formDataObj
-        }
-      }),
+      body: JSON.stringify(pdfPayload),
       headers: {
         'Content-Type': 'application/json'
       }
     });
 
-    const result = await pdfResponse.json();
-    console.log('PDF response:', result); // Debug log
+    const pdfResult = await pdfResponse.json();
+    console.log('PDF generation response:', pdfResult);
 
     if (!pdfResponse.ok) {
-      throw new Error(result.error || 'PDF generation failed');
+      throw new Error(pdfResult.error || 'PDF generation failed');
     }
 
-    // Download PDF
-    const link = document.createElement('a');
-    link.href = `data:application/pdf;base64,${result.pdf}`;
-    link.download = result.filename || `application_${Date.now()}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // 4. Download PDF
+    try {
+      const byteCharacters = atob(pdfResult.pdf);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = pdfResult.filename || `rental_application_${Date.now()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 100);
+    } catch (downloadError) {
+      console.error('PDF download failed:', downloadError);
+      throw new Error('Failed to download PDF');
+    }
 
-    // Show success
+    // 5. Show success and reset form
     document.getElementById('form-messages')?.classList.remove('hidden');
     hasShownSuccess = true;
-    form.reset();
+    
+    // Reset form after short delay
+    setTimeout(() => form.reset(), 500);
+
+    // 6. Redirect based on location
+    if (currentLocation === 'stockton') {
+      showPromptScreen();
+    } else {
+      showPropertiesForLocation(currentLocation);
+    }
 
   } catch (error) {
-    console.error('Full error:', error);
-    alert(
-      language === 'es' 
-        ? `Error: ${error.message || 'Error desconocido'}`
-        : `Error: ${error.message || 'Unknown error'}`
-    );
+    console.error('Full submission error:', error);
+    
+    // Show appropriate error message
+    const errorMessage = language === 'es' 
+      ? `Error: ${error.message || 'Error al procesar la solicitud'}`
+      : `Error: ${error.message || 'Failed to process application'}`;
+    
+    alert(errorMessage);
+    
+    // Optionally show error in UI
+    const errorElement = document.getElementById('form-error');
+    if (errorElement) {
+      errorElement.textContent = errorMessage;
+      errorElement.classList.remove('hidden');
+    }
+
   } finally {
+    // Restore button state
     submitBtn.innerHTML = originalText;
-    submitBtn.disabled = false;
+    submitBtn.disabled = originalDisabled;
   }
 }
-// Initialize form submission (DOM loaded)
-document.addEventListener('DOMContentLoaded', function() {
-  // Form submission
-  const form = document.getElementById('rentalApplication');
-  if (form) form.addEventListener('submit', handleRentalApplicationSubmit);
-
-  // Pet details toggle
-  document.querySelectorAll('input[name="pets"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-      const petDetails = document.getElementById('petDetails');
-      if (petDetails) petDetails.style.display = this.value === 'yes' ? 'block' : 'none';
-    });
-  });
-
-  // Check for form submission success
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('form-submitted') && !hasShownSuccess) {
-    document.getElementById('form-messages')?.classList.remove('hidden');
-    hasShownSuccess = true;
-    history.replaceState(null, null, window.location.pathname);
-  }
-});
 </script>
 </body>
 </html>
