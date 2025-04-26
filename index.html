@@ -739,7 +739,7 @@
     <!-- Application Form -->
     <section id="applicationForm" class="hidden">
         <div class="container">
-            <h2 id="formTitle">Stockton Rental Application</h2>
+            <h2 id="formTitle">Rental Application</h2>
             
             <form id="rentalApplication">
                 <!-- Personal Information Section -->
@@ -748,53 +748,53 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" class="form-control" required>
+                            <label for="firstName" id="firstNameLabel">First Name</label>
+                            <input type="text" id="firstName" class="form-control" required data-translate="firstName">
                         </div>
                         <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" class="form-control" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="dob">Date of Birth</label>
-                            <input type="date" id="dob" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="ssn">SSN (Last 4 Digits)</label>
-                            <input type="text" id="ssn" class="form-control" pattern="\d{4}" maxlength="4" required>
+                            <label for="lastName" id="lastNameLabel">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" required data-translate="lastName">
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" class="form-control" required>
+                            <label for="dob" id="dobLabel">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control" required data-translate="dob">
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" class="form-control" required>
+                            <label for="ssn" id="ssnLabel">SSN (Last 4 Digits)</label>
+                            <input type="text" id="ssn" class="form-control" pattern="\d{4}" maxlength="4" required data-translate="ssn">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email" id="emailLabel">Email Address</label>
+                            <input type="email" id="email" class="form-control" required data-translate="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" id="phoneLabel">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" required data-translate="phone">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="currentAddress">Current Address</label>
-                        <textarea id="currentAddress" class="form-control" rows="2" required></textarea>
+                        <label for="currentAddress" id="currentAddressLabel">Current Address</label>
+                        <textarea id="currentAddress" class="form-control" rows="2" required data-translate="currentAddress"></textarea>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="currentRent">Current Rent Amount</label>
+                            <label for="currentRent" id="currentRentLabel">Current Rent Amount</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
-                                <input type="number" id="currentRent" class="form-control" min="0" required>
+                                <input type="number" id="currentRent" class="form-control" min="0" required data-translate="currentRent">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="moveInDate">Desired Move-In Date</label>
-                            <input type="date" id="moveInDate" class="form-control" required>
+                            <label for="moveInDate" id="moveInDateLabel">Desired Move-In Date</label>
+                            <input type="date" id="moveInDate" class="form-control" required data-translate="moveInDate">
                         </div>
                     </div>
                 </fieldset>
@@ -804,42 +804,42 @@
                     <legend id="employmentTitle">Employment Information</legend>
                     
                     <div class="form-group">
-                        <label for="employerName">Current Employer</label>
-                        <input type="text" id="employerName" class="form-control" required>
+                        <label for="employerName" id="employerNameLabel">Current Employer</label>
+                        <input type="text" id="employerName" class="form-control" required data-translate="employerName">
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="jobTitle">Job Title</label>
-                            <input type="text" id="jobTitle" class="form-control" required>
+                            <label for="jobTitle" id="jobTitleLabel">Job Title</label>
+                            <input type="text" id="jobTitle" class="form-control" required data-translate="jobTitle">
                         </div>
                         <div class="form-group">
-                            <label for="employmentDuration">Duration of Employment</label>
-                            <input type="text" id="employmentDuration" class="form-control" placeholder="e.g., 2 years" required>
+                            <label for="employmentDuration" id="employmentDurationLabel">Duration of Employment</label>
+                            <input type="text" id="employmentDuration" class="form-control" placeholder="e.g., 2 years" required data-translate="employmentDuration">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="employerAddress">Employer Address</label>
-                        <textarea id="employerAddress" class="form-control" rows="2" required></textarea>
+                        <label for="employerAddress" id="employerAddressLabel">Employer Address</label>
+                        <textarea id="employerAddress" class="form-control" rows="2" required data-translate="employerAddress"></textarea>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="supervisorName">Supervisor Name</label>
-                            <input type="text" id="supervisorName" class="form-control" required>
+                            <label for="supervisorName" id="supervisorNameLabel">Supervisor Name</label>
+                            <input type="text" id="supervisorName" class="form-control" required data-translate="supervisorName">
                         </div>
                         <div class="form-group">
-                            <label for="supervisorPhone">Supervisor Phone</label>
-                            <input type="tel" id="supervisorPhone" class="form-control" required>
+                            <label for="supervisorPhone" id="supervisorPhoneLabel">Supervisor Phone</label>
+                            <input type="tel" id="supervisorPhone" class="form-control" required data-translate="supervisorPhone">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="monthlyIncome">Gross Monthly Income</label>
+                        <label for="monthlyIncome" id="monthlyIncomeLabel">Gross Monthly Income</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" id="monthlyIncome" class="form-control" min="0" required>
+                            <input type="number" id="monthlyIncome" class="form-control" min="0" required data-translate="monthlyIncome">
                         </div>
                     </div>
                     
@@ -847,15 +847,15 @@
                         <label id="incomeProofLabel">Proof of Income</label>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="payStubs">
-                            <label class="form-check-label" for="payStubs">Pay Stubs (Last 2 Months)</label>
+                            <label class="form-check-label" for="payStubs" data-translate="payStubs"></label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="bankStatements">
-                            <label class="form-check-label" for="bankStatements">Bank Statements</label>
+                            <label class="form-check-label" for="bankStatements" data-translate="bankStatements"></label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="taxReturns">
-                            <label class="form-check-label" for="taxReturns">Tax Returns</label>
+                            <label class="form-check-label" for="taxReturns" data-translate="taxReturns"></label>
                         </div>
                     </div>
                 </fieldset>
@@ -865,38 +865,38 @@
                     <legend id="rentalHistoryTitle">Rental History</legend>
                     
                     <div class="form-group">
-                        <label for="previousLandlord">Previous Landlord Name</label>
-                        <input type="text" id="previousLandlord" class="form-control">
+                        <label for="previousLandlord" id="previousLandlordLabel">Previous Landlord Name</label>
+                        <input type="text" id="previousLandlord" class="form-control" data-translate="previousLandlord">
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="previousLandlordPhone">Landlord Phone</label>
-                            <input type="tel" id="previousLandlordPhone" class="form-control">
+                            <label for="previousLandlordPhone" id="previousLandlordPhoneLabel">Landlord Phone</label>
+                            <input type="tel" id="previousLandlordPhone" class="form-control" data-translate="previousLandlordPhone">
                         </div>
                         <div class="form-group">
-                            <label for="previousRent">Previous Rent Amount</label>
+                            <label for="previousRent" id="previousRentLabel">Previous Rent Amount</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
-                                <input type="number" id="previousRent" class="form-control" min="0">
+                                <input type="number" id="previousRent" class="form-control" min="0" data-translate="previousRent">
                             </div>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="reasonForLeaving">Reason for Leaving</label>
-                        <textarea id="reasonForLeaving" class="form-control" rows="2"></textarea>
+                        <label for="reasonForLeaving" id="reasonForLeavingLabel">Reason for Leaving</label>
+                        <textarea id="reasonForLeaving" class="form-control" rows="2" data-translate="reasonForLeaving"></textarea>
                     </div>
                     
                     <div class="form-group">
                         <label id="evictionLabel">Have you ever been evicted?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="eviction" id="evictionYes" value="yes">
-                            <label class="form-check-label" for="evictionYes">Yes</label>
+                            <label class="form-check-label" for="evictionYes" data-translate="evictionYes"></label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="eviction" id="evictionNo" value="no" checked>
-                            <label class="form-check-label" for="evictionNo">No</label>
+                            <label class="form-check-label" for="evictionNo" data-translate="evictionNo"></label>
                         </div>
                     </div>
                 </fieldset>
@@ -907,23 +907,23 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="make">Make</label>
-                            <input type="text" id="make" class="form-control">
+                            <label for="make" id="makeLabel">Make</label>
+                            <input type="text" id="make" class="form-control" data-translate="make">
                         </div>
                         <div class="form-group">
-                            <label for="model">Model</label>
-                            <input type="text" id="model" class="form-control">
+                            <label for="model" id="modelLabel">Model</label>
+                            <input type="text" id="model" class="form-control" data-translate="model">
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="year">Year</label>
-                            <input type="number" id="year" class="form-control" min="1900" max="2023">
+                            <label for="year" id="yearLabel">Year</label>
+                            <input type="number" id="year" class="form-control" min="1900" max="2023" data-translate="year">
                         </div>
                         <div class="form-group">
-                            <label for="licensePlate">License Plate</label>
-                            <input type="text" id="licensePlate" class="form-control">
+                            <label for="licensePlate" id="licensePlateLabel">License Plate</label>
+                            <input type="text" id="licensePlate" class="form-control" data-translate="licensePlate">
                         </div>
                     </div>
                 </fieldset>
@@ -934,23 +934,23 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="emergencyName">Full Name</label>
-                            <input type="text" id="emergencyName" class="form-control" required>
+                            <label for="emergencyName" id="emergencyNameLabel">Full Name</label>
+                            <input type="text" id="emergencyName" class="form-control" required data-translate="emergencyName">
                         </div>
                         <div class="form-group">
-                            <label for="emergencyRelation">Relationship</label>
-                            <input type="text" id="emergencyRelation" class="form-control" required>
+                            <label for="emergencyRelation" id="emergencyRelationLabel">Relationship</label>
+                            <input type="text" id="emergencyRelation" class="form-control" required data-translate="emergencyRelation">
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="emergencyPhone">Phone Number</label>
-                            <input type="tel" id="emergencyPhone" class="form-control" required>
+                            <label for="emergencyPhone" id="emergencyPhoneLabel">Phone Number</label>
+                            <input type="tel" id="emergencyPhone" class="form-control" required data-translate="emergencyPhone">
                         </div>
                         <div class="form-group">
-                            <label for="emergencyEmail">Email</label>
-                            <input type="email" id="emergencyEmail" class="form-control">
+                            <label for="emergencyEmail" id="emergencyEmailLabel">Email</label>
+                            <input type="email" id="emergencyEmail" class="form-control" data-translate="emergencyEmail">
                         </div>
                     </div>
                 </fieldset>
@@ -960,42 +960,42 @@
                     <legend id="additionalInfoTitle">Additional Information</legend>
                     
                     <div class="form-group">
-                        <label for="occupants">Number of Occupants</label>
-                        <input type="number" id="occupants" class="form-control" min="1" required>
+                        <label for="occupants" id="occupantsLabel">Number of Occupants</label>
+                        <input type="number" id="occupants" class="form-control" min="1" required data-translate="occupants">
                     </div>
                     
                     <div class="form-group">
                         <label id="petsLabel">Will you have pets?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="pets" id="petsYes" value="yes">
-                            <label class="form-check-label" for="petsYes">Yes</label>
+                            <label class="form-check-label" for="petsYes" data-translate="petsYes"></label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="pets" id="petsNo" value="no" checked>
-                            <label class="form-check-label" for="petsNo">No</label>
+                            <label class="form-check-label" for="petsNo" data-translate="petsNo"></label>
                         </div>
                     </div>
                     
                     <div class="form-group" id="petDetails" style="display: none;">
-                        <label for="petDescription">Pet Description (Type, Breed, Weight)</label>
-                        <textarea id="petDescription" class="form-control" rows="2"></textarea>
+                        <label for="petDescription" id="petDescriptionLabel">Pet Description (Type, Breed, Weight)</label>
+                        <textarea id="petDescription" class="form-control" rows="2" data-translate="petDescription"></textarea>
                     </div>
                     
                     <div class="form-group">
                         <label id="smokingLabel">Do you smoke?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="smoking" id="smokingYes" value="yes">
-                            <label class="form-check-label" for="smokingYes">Yes</label>
+                            <label class="form-check-label" for="smokingYes" data-translate="smokingYes"></label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="smoking" id="smokingNo" value="no" checked>
-                            <label class="form-check-label" for="smokingNo">No</label>
+                            <label class="form-check-label" for="smokingNo" data-translate="smokingNo"></label>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="additionalInfo">Additional Comments</label>
-                        <textarea id="additionalInfo" class="form-control" rows="3"></textarea>
+                        <label for="additionalInfo" id="additionalInfoLabel">Additional Comments</label>
+                        <textarea id="additionalInfo" class="form-control" rows="3" data-translate="additionalInfo"></textarea>
                     </div>
                 </fieldset>
                 
@@ -1006,37 +1006,31 @@
                     <div class="form-group">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="creditCheck" required>
-                            <label class="form-check-label" for="creditCheck">
-                                I authorize a credit/background check (Fee may apply)
-                            </label>
+                            <label class="form-check-label" for="creditCheck" data-translate="creditCheck"></label>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="termsAgreement" required>
-                            <label class="form-check-label" for="termsAgreement">
-                                I certify that all information provided is true and complete
-                            </label>
+                            <label class="form-check-label" for="termsAgreement" data-translate="termsAgreement"></label>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="stocktonDisclosure" required>
-                            <label class="form-check-label" for="stocktonDisclosure">
-                                I acknowledge I have received the City of Stockton Tenant Rights information
-                            </label>
+                            <label class="form-check-label" for="stocktonDisclosure" data-translate="stocktonDisclosure"></label>
                         </div>
                     </div>
                 </fieldset>
                 
                 <div class="form-actions">
                     <button type="submit" class="submit-btn" id="submitApplicationBtn">
-                        <i class="fas fa-paper-plane"></i> Submit Application
+                        <i class="fas fa-paper-plane"></i> <span data-translate="submitBtn">Submit Application</span>
                     </button>
                     <button type="button" class="back-btn" onclick="showPromptScreen()">
-                        <i class="fas fa-arrow-left"></i> Back
+                        <i class="fas fa-arrow-left"></i> <span data-translate="back">Back</span>
                     </button>
                 </div>
             </form>
