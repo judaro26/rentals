@@ -234,41 +234,83 @@ function showPropertiesForLocation(location) {
 }
 
 function viewPropertyGallery(location, propertyId) {
+  console.group('View Gallery Debug');
+  console.log('Location:', location);
+  console.log('Property ID:', propertyId);
+  
+  // Validate inputs
   if (!location || !propertyId) {
     console.error('Missing location or propertyId');
+    console.groupEnd();
     return;
   }
 
-  if (!properties[location] || !properties[location][propertyId]) {
-    console.error(`Property not found: ${location} - ${propertyId}`);
+  // Validate property exists
+  if (!properties[location]) {
+    console.error('Location not found:', location);
+    console.groupEnd();
     return;
   }
 
+  if (!properties[location][propertyId]) {
+    console.error('Property not found:', propertyId, 'in', location);
+    console.error('Available properties:', Object.keys(properties[location]));
+    console.groupEnd();
+    return;
+  }
+
+  // Update state
   currentLocation = location;
   currentProperty = propertyId;
   currentSlide = 0;
 
+  console.log('Current property set to:', currentProperty);
+  console.log('Property data:', properties[location][propertyId]);
+
+  // Hide all sections
   document.querySelectorAll('section').forEach(section => {
     section.classList.add('hidden');
   });
 
+  // Show slideshow
   const slideshow = document.getElementById("slideshow");
   if (!slideshow) {
     console.error('Slideshow element not found');
+    console.groupEnd();
     return;
   }
 
+  // Load first slide
   showSlide(location, propertyId);
   slideshow.classList.remove("hidden");
+  
+  console.log('Gallery shown successfully');
+  console.groupEnd();
 }
 
 function showSlide(location, propertyId) {
-  const container = document.getElementById("slidesContainer");
-  const property = properties[location][propertyId];
-  const slide = property.images[currentSlide];
+  console.log('Showing slide for:', location, propertyId);
   
+  const container = document.getElementById("slidesContainer");
+  if (!container) {
+    console.error('Slides container not found');
+    return;
+  }
+
+  const property = properties[location]?.[propertyId];
+  if (!property) {
+    console.error('Property data not found');
+    return;
+  }
+
+  const slide = property.images[currentSlide];
+  if (!slide) {
+    console.error('Slide data not found');
+    return;
+  }
+
   container.innerHTML = `
-    <img src="${slide.src}" alt="${slide[language]}" loading="lazy">
+    <img src="${slide.src}" alt="${slide[language]}" onerror="this.onerror=null;this.src='images/placeholder.jpg'">
     <div class="caption">${property.title[language]} - ${slide[language]}</div>
     <div class="slide-nav">
       ${currentSlide > 0 ? `<button class="slide-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i> ${language === 'es' ? 'Anterior' : 'Previous'}</button>` : ''}
