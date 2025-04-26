@@ -9,12 +9,12 @@ const properties = {
           en: "Main House - 2 Bed / 1 Bath - $1950/mo",
           es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
         },
-            {
+        {
           src: 'images/main2.jpg',
           en: "Main House - 2 Bed / 1 Bath - $1950/mo",
           es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
         },
-          {
+        {
           src: 'images/main3.jpg',
           en: "Main House - 2 Bed / 1 Bath - $1950/mo",
           es: "Casa Principal - 2 Habitaciones / 1 Baños - $1950/mes"
@@ -114,7 +114,6 @@ const properties = {
     }
   },
   fairfield: {
-    // Example property - add more as needed
     apartment: {
       title: { en: "Fairfield Apartment", es: "Apartamento de Fairfield" },
       description: { en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
@@ -128,8 +127,6 @@ const properties = {
 
 // State variables
 let currentLocation = null;
-let currentSection = null;
-let previousSection = null;
 let language = localStorage.getItem("lang") || 'en';
 let currentSlide = 0;
 let currentProperty = null;
@@ -181,10 +178,8 @@ function selectLocation(location) {
   document.getElementById("locationScreen").classList.add("hidden");
   
   if (location === 'stockton') {
-    // Show the existing prompt screen for Stockton
     document.getElementById("promptScreen").classList.remove("hidden");
   } else {
-    // For other locations, show properties directly
     showPropertiesForLocation(location);
   }
   
@@ -192,7 +187,6 @@ function selectLocation(location) {
 }
 
 function showPropertiesForLocation(location) {
-  // Create or show properties screen
   let propertiesScreen = document.getElementById("dynamicPropertiesScreen");
   
   if (!propertiesScreen) {
@@ -212,7 +206,6 @@ function showPropertiesForLocation(location) {
     </div>
   `;
   
-  // Populate with properties
   const propertiesGrid = document.getElementById(`${location}Properties`);
   const locationProperties = properties[location];
   
@@ -241,44 +234,32 @@ function showPropertiesForLocation(location) {
 }
 
 function viewPropertyGallery(location, propertyId) {
-  // Debugging logs
-  console.log(`Attempting to view gallery for ${location} - ${propertyId}`);
-  
-  // Validate inputs
   if (!location || !propertyId) {
     console.error('Missing location or propertyId');
     return;
   }
 
-  // Validate property exists
   if (!properties[location] || !properties[location][propertyId]) {
     console.error(`Property not found: ${location} - ${propertyId}`);
     return;
   }
 
-  // Update state
   currentLocation = location;
   currentProperty = propertyId;
   currentSlide = 0;
 
-  // Hide other sections
-  const sections = document.querySelectorAll('section');
-  sections.forEach(section => {
+  document.querySelectorAll('section').forEach(section => {
     section.classList.add('hidden');
   });
 
-  // Show slideshow
   const slideshow = document.getElementById("slideshow");
   if (!slideshow) {
     console.error('Slideshow element not found');
     return;
   }
 
-  // Load first slide
   showSlide(location, propertyId);
   slideshow.classList.remove("hidden");
-  
-  console.log('Gallery shown successfully');
 }
 
 function showSlide(location, propertyId) {
@@ -287,14 +268,14 @@ function showSlide(location, propertyId) {
   const slide = property.images[currentSlide];
   
   container.innerHTML = `
-    <img src="${slide.src}" alt="${slide[language]}">
+    <img src="${slide.src}" alt="${slide[language]}" loading="lazy">
     <div class="caption">${property.title[language]} - ${slide[language]}</div>
     <div class="slide-nav">
       ${currentSlide > 0 ? `<button class="slide-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i> ${language === 'es' ? 'Anterior' : 'Previous'}</button>` : ''}
       <span class="slide-counter">${currentSlide + 1} / ${property.images.length}</span>
       ${currentSlide < property.images.length - 1 ? `<button class="slide-btn" onclick="nextSlide()">${language === 'es' ? 'Siguiente' : 'Next'} <i class="fas fa-chevron-right"></i></button>` : ''}
     </div>
-    <button class="back-btn" onclick="goBackToProperties()">
+    <button class="back-btn" onclick="goBackFromSlideshow()">
       <i class="fas fa-arrow-left"></i> ${language === 'es' ? 'Volver a propiedades' : 'Back to properties'}
     </button>
   `;
@@ -317,26 +298,26 @@ function prevSlide() {
 
 function applyForProperty(location, propertyId) {
   currentProperty = propertyId;
-  document.getElementById("dynamicPropertiesScreen").classList.add("hidden");
+  document.getElementById("dynamicPropertiesScreen")?.classList.add("hidden");
   document.getElementById("applicationForm").classList.remove("hidden");
   updateLabels();
-  
-  // Set the property type in the form
-  const propertySelect = document.getElementById("propertyType");
-  if (propertySelect) {
-    propertySelect.value = propertyId;
-  }
 }
 
 // Navigation functions
 function goBackToLocation() {
-  document.getElementById("dynamicPropertiesScreen").classList.add("hidden");
+  document.getElementById("dynamicPropertiesScreen")?.classList.add("hidden");
   document.getElementById("locationScreen").classList.remove("hidden");
 }
 
-function goBackToProperties() {
-  document.getElementById("slideshow").classList.add("hidden");
-  document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+function goBackFromSlideshow() {
+  const slideshow = document.getElementById("slideshow");
+  if (slideshow) slideshow.classList.add("hidden");
+
+  if (currentLocation === 'stockton') {
+    document.getElementById("mainPage").classList.remove("hidden");
+  } else {
+    document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+  }
 }
 
 function goBackToLanguage() {
@@ -344,36 +325,7 @@ function goBackToLanguage() {
   document.getElementById("languageModal").style.display = "flex";
 }
 
-function goBackFromSlideshow() {
-  console.log('Going back from slideshow'); // Debugging
-  
-  // Hide slideshow
-  const slideshow = document.getElementById("slideshow");
-  if (slideshow) {
-    slideshow.classList.add("hidden");
-  } else {
-    console.error('Slideshow element not found');
-  }
-  
-  // Show appropriate previous screen
-  if (currentLocation === 'stockton') {
-    const mainPage = document.getElementById("mainPage");
-    if (mainPage) {
-      mainPage.classList.remove("hidden");
-    } else {
-      console.error('Main page element not found');
-    }
-  } else {
-    const propertiesScreen = document.getElementById("dynamicPropertiesScreen");
-    if (propertiesScreen) {
-      propertiesScreen.classList.remove("hidden");
-    } else {
-      console.error('Properties screen element not found');
-    }
-  }
-}
-
-// Existing Stockton-specific functions
+// Stockton-specific functions
 function goToGallery() {
   document.getElementById('promptScreen').classList.add('hidden');
   document.getElementById('mainPage').classList.remove('hidden');
@@ -398,17 +350,12 @@ function showPromptScreen() {
 function updateLabels() {
   const translations = {
     en: {
-      // Location screen
       locationTitle: "Select Location",
       stockton: "Stockton, CA",
       fairfield: "Fairfield, CA",
-      
-      // Prompt screen
       promptTitle: "What would you like to do?",
       viewImages: "View Images",
       applyNow: "Apply Now",
-      
-      // Form
       formTitle: "Rental Application",
       fullName: "Full Name",
       email: "Email Address",
@@ -419,17 +366,12 @@ function updateLabels() {
       submitBtn: "Submit Application"
     },
     es: {
-      // Location screen
       locationTitle: "Seleccione Ubicación",
       stockton: "Stockton, CA",
       fairfield: "Fairfield, CA",
-      
-      // Prompt screen
       promptTitle: "¿Qué te gustaría hacer?",
       viewImages: "Ver Imágenes",
       applyNow: "Aplicar Ahora",
-      
-      // Form
       formTitle: "Solicitud de Alquiler",
       fullName: "Nombre Completo",
       email: "Correo Electrónico",
@@ -443,7 +385,6 @@ function updateLabels() {
 
   const lang = translations[language] || translations.en;
   
-  // Update all elements
   for (const [key, value] of Object.entries(lang)) {
     const elements = document.querySelectorAll(`[id="${key}"]`);
     elements.forEach(el => {
@@ -455,7 +396,6 @@ function updateLabels() {
     });
   }
 
-  // Update Stockton property buttons if on mainPage
   if (document.getElementById('mainHouseBtn') && properties.stockton.main) {
     document.getElementById('mainHouseBtn').textContent = properties.stockton.main.title[language];
     document.querySelector('#mainPage .property-card:nth-child(1) p').textContent = properties.stockton.main.description[language];
@@ -467,19 +407,17 @@ function updateLabels() {
   }
 }
 
-// Form submission handler
+// Form handling
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('rentalApplication');
   if (form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Show success message
       alert(language === 'es' ? 
         'Solicitud enviada con éxito. Nos pondremos en contacto con usted pronto.' : 
         'Application submitted successfully. We will contact you soon.');
       
-      // Reset form and go back to properties
       this.reset();
       if (currentLocation === 'stockton') {
         showPromptScreen();
@@ -489,7 +427,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Pet details toggle
   document.querySelectorAll('input[name="pets"]').forEach(radio => {
     radio.addEventListener('change', function() {
       document.getElementById('petDetails').style.display = 
