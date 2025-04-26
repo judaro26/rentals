@@ -1174,23 +1174,27 @@ async function handleRentalApplicationSubmit(e) {
 
   try {
     const formData = new FormData(form);
+    const formDataObj = Object.fromEntries(formData.entries());
 
-    // 1. First submit to Netlify Forms
+    console.log('Form data:', formDataObj); // Debug log
+
+    // 1. Submit to Netlify Forms
     const netlifyResponse = await fetch(form.action, {
       method: 'POST',
       body: formData
     });
 
     if (!netlifyResponse.ok) {
-      throw new Error('Netlify form submission failed');
+      throw new Error(`Netlify submission failed: ${netlifyResponse.status}`);
     }
 
-    // 2. Then generate PDF
+    // 2. Generate PDF
+    console.log('Attempting PDF generation...'); // Debug log
     const pdfResponse = await fetch('/.netlify/functions/generate-pdf', {
       method: 'POST',
       body: JSON.stringify({
         payload: {
-          data: Object.fromEntries(formData)
+          data: formDataObj
         }
       }),
       headers: {
@@ -1199,31 +1203,31 @@ async function handleRentalApplicationSubmit(e) {
     });
 
     const result = await pdfResponse.json();
+    console.log('PDF response:', result); // Debug log
 
-    if (pdfResponse.ok) {
-      // Download the PDF automatically
-      const link = document.createElement('a');
-      link.href = `data:application/pdf;base64,${result.pdf}`;
-      link.download = result.filename || `application_${Date.now()}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Show success message
-      document.getElementById('form-messages')?.classList.remove('hidden');
-      hasShownSuccess = true;
-      
-      // Reset form if needed
-      form.reset();
-    } else {
+    if (!pdfResponse.ok) {
       throw new Error(result.error || 'PDF generation failed');
     }
+
+    // Download PDF
+    const link = document.createElement('a');
+    link.href = `data:application/pdf;base64,${result.pdf}`;
+    link.download = result.filename || `application_${Date.now()}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Show success
+    document.getElementById('form-messages')?.classList.remove('hidden');
+    hasShownSuccess = true;
+    form.reset();
+
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Full error:', error);
     alert(
-      language === 'es'
-        ? 'Error al enviar la solicitud. Por favor intente nuevamente.'
-        : 'Error submitting application. Please try again.'
+      language === 'es' 
+        ? `Error: ${error.message || 'Error desconocido'}`
+        : `Error: ${error.message || 'Unknown error'}`
     );
   } finally {
     submitBtn.innerHTML = originalText;
