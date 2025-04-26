@@ -1158,19 +1158,18 @@
 let hasShownSuccess = false;
 
 function handleFormSubmission() {
-  // Check URL parameters and hash
+  // Check URL parameters
   const urlParams = new URLSearchParams(window.location.search);
-  const hash = window.location.hash;
-  
-  // Only proceed if we have submission indicators AND haven't shown the message yet
-  if ((urlParams.has('form-submitted') || hash === '#form-messages') && !hasShownSuccess) {
+
+  // Only proceed if we have the submission indicator AND haven't shown the message yet
+  if (urlParams.has('form-submitted') && !hasShownSuccess) {
     // Show success message
     document.getElementById('form-messages').classList.remove('hidden');
     hasShownSuccess = true;
-    
+
     // Clear the URL parameters without reload
     history.replaceState(null, null, window.location.pathname);
-    
+
     // Store in sessionStorage to prevent showing on refresh
     sessionStorage.setItem('formSubmitted', 'true');
   }
@@ -1179,14 +1178,15 @@ function handleFormSubmission() {
 function resetApplicationFlow() {
   // Hide success message
   document.getElementById('form-messages').classList.add('hidden');
-  
+
   // Reset all screens to initial state
   document.getElementById('languageModal').style.display = 'flex';
   document.getElementById('applicationForm').classList.add('hidden');
   document.getElementById('promptScreen').classList.add('hidden');
   document.getElementById('locationScreen').classList.add('hidden');
   document.getElementById('mainPage').classList.add('hidden');
-  
+  document.getElementById('slideshow').classList.add('hidden'); // Make sure to hide slideshow too
+
   // Clear the submission flag
   sessionStorage.removeItem('formSubmitted');
   hasShownSuccess = false;
@@ -1197,8 +1197,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (sessionStorage.getItem('formSubmitted') !== 'true') {
     handleFormSubmission();
   }
-  
-  // Clear the submission flag when leaving the page
+
+  // Clear the submission flag when leaving the page (only if success wasn't shown)
   window.addEventListener('beforeunload', function() {
     if (!hasShownSuccess) {
       sessionStorage.removeItem('formSubmitted');
