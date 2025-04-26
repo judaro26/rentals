@@ -119,7 +119,20 @@ const properties = {
       description: { en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
       images: [
         { src: 'images/fairfield/fairfield.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
-        { src: 'images/fairfield/apartment2.jpg', en: "Fairfield Apartment - Kitchen", es: "Apartamento de Fairfield - Cocina" }
+        { src: 'images/fairfield/fairfield2.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield3.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield4.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield5.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield6.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield7.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield8.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield9.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield10.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield11.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield12.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield13.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
+        { src: 'images/fairfield/fairfield14.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },  
+        { src: 'images/fairfield/fairfield15.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" }
       ]
     }
   }
