@@ -1,4 +1,4 @@
 [[redirects]]
-  from = "/submission-thank-you"
-  to = "/?form-submitted=true"
+  from = "/submission-success"
+  to = "/#form-success"
   status = 200
