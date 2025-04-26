@@ -793,7 +793,7 @@
     <section id="applicationForm" class="hidden">
         <div class="container">
             <h2 id="formTitle">Rental Application</h2>
-             <form name="rental-application"
+            <form name="rental-application"
                   method="POST"
                   netlify
                   data-netlify="true"
@@ -1123,8 +1123,20 @@
                 <i class="fas fa-arrow-left"></i> Back to Main Menu
             </button>
         </div>
+        <!-- Form Submission Messages -->
+    <div id="form-messages" class="hidden">
+      <div class="success-message">
+        <i class="fas fa-check-circle"></i>
+        <h2>Application Submitted!</h2>
+        <p>Thank you for your application. We'll review your information and contact you soon.</p>
+        <button onclick="resetApplicationFlow()" class="back-btn">
+          <i class="fas fa-home"></i> Back to Main Page
+        </button>
+      </div>
+    </div>
     </div>
 
+    
                     
     <!-- Slideshow -->
     <section id="slideshow" class="hidden">
@@ -1139,33 +1151,27 @@
 
     <script src="script.js"></script>
     
-<!-- Form Submission Messages -->
-<div id="form-messages" class="hidden">
-  <div class="success-message">
-    <i class="fas fa-check-circle"></i>
-    <h2>Application Submitted!</h2>
-    <p>Thank you for your application. We'll review your information and contact you soon.</p>
-    <button onclick="resetApplicationFlow()" class="back-btn">
-      <i class="fas fa-home"></i> Back to Main Page
-    </button>
-  </div>
-</div>
+
     
 <script>
-// Store form submission state in sessionStorage
+// Track if we've shown the success message
+let hasShownSuccess = false;
+
 function handleFormSubmission() {
-  // Check URL for form submission indicator
+  // Check URL parameters and hash
   const urlParams = new URLSearchParams(window.location.search);
   const hash = window.location.hash;
   
-  if (urlParams.has('form-submitted') || hash === '#form-messages') {
+  // Only proceed if we have submission indicators AND haven't shown the message yet
+  if ((urlParams.has('form-submitted') || hash === '#form-messages') && !hasShownSuccess) {
     // Show success message
     document.getElementById('form-messages').classList.remove('hidden');
+    hasShownSuccess = true;
     
     // Clear the URL parameters without reload
     history.replaceState(null, null, window.location.pathname);
     
-    // Store submission state to prevent showing again on refresh
+    // Store in sessionStorage to prevent showing on refresh
     sessionStorage.setItem('formSubmitted', 'true');
   }
 }
@@ -1174,23 +1180,29 @@ function resetApplicationFlow() {
   // Hide success message
   document.getElementById('form-messages').classList.add('hidden');
   
-  // Clear the submission flag
-  sessionStorage.removeItem('formSubmitted');
-  
-  // Reset to language selection
+  // Reset all screens to initial state
   document.getElementById('languageModal').style.display = 'flex';
   document.getElementById('applicationForm').classList.add('hidden');
+  document.getElementById('promptScreen').classList.add('hidden');
+  document.getElementById('locationScreen').classList.add('hidden');
+  document.getElementById('mainPage').classList.add('hidden');
+  
+  // Clear the submission flag
+  sessionStorage.removeItem('formSubmitted');
+  hasShownSuccess = false;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Only show message if this is a fresh submission (not page refresh)
+  // Check if we should show the success message
   if (sessionStorage.getItem('formSubmitted') !== 'true') {
     handleFormSubmission();
   }
   
   // Clear the submission flag when leaving the page
   window.addEventListener('beforeunload', function() {
-    sessionStorage.removeItem('formSubmitted');
+    if (!hasShownSuccess) {
+      sessionStorage.removeItem('formSubmitted');
+    }
   });
 });
 </script>
