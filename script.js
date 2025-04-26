@@ -194,6 +194,7 @@ function goBack() {
   document.getElementById('promptScreen').classList.add('hidden');
   document.getElementById('locationScreen').classList.remove('hidden');
 }
+
 function showPropertiesForLocation(location) {
   let propertiesScreen = document.getElementById("dynamicPropertiesScreen");
   if (!propertiesScreen) {
@@ -204,28 +205,28 @@ function showPropertiesForLocation(location) {
   }
   propertiesScreen.innerHTML = `
     <div class="container">
-      <h2>${language === 'es' ? 'Propiedades en' : 'Properties in'} <span class="math-inline">\{location\.charAt\(0\)\.toUpperCase\(\) \+ location\.slice\(1\)\}</h2\>
-<div class\="property\-cards" id\="</span>{location}Properties"></div>
+      <h2>${language === 'es' ? 'Propiedades en' : 'Properties in'} ${location.charAt(0).toUpperCase() + location.slice(1)}</h2>
+      <div class="property-cards" id="${location}Properties"></div>
       <button class="back-btn" onclick="goBackToLocation()">
         <i class="fas fa-arrow-left"></i> ${language === 'es' ? 'Atrás' : 'Back'}
       </button>
     </div>
   `;
-  const propertiesGrid = document.getElementById(`${location}Properties`);
+  const propertiesGrid = document.getElementById(`${location}Properties`); // Moved this line down
   const locationProperties = properties[location];
   for (const [propertyId, property] of Object.entries(locationProperties)) {
     const propertyCard = document.createElement('div');
     propertyCard.className = 'property-card';
     propertyCard.innerHTML = `
-      <div class="property-img" style="background-image: url('<span class="math-inline">\{property\.images\[0\]\.src\}'\);"\></div\>
-<div class\="property\-info"\>
-<h3\></span>{property.title[language]}</h3>
-        <p><span class="math-inline">\{property\.description\[language\]\}</p\>
-<div class\="property\-actions"\>
-<button class\="view\-btn" onclick\="viewPropertyGallery\('</span>{location}', '${propertyId}')">
-            <i class="fas fa-images"></i> <span class="math-inline">\{language \=\=\= 'es' ? 'Ver Imágenes' \: 'View Images'\}
-</button\>
-<button class\="apply\-btn" onclick\="applyForProperty\('</span>{location}', '${propertyId}')">
+      <div class="property-img" style="background-image: url('${property.images[0].src}');"></div>
+      <div class="property-info">
+        <h3>${property.title[language]}</h3>
+        <p>${property.description[language]}</p>
+        <div class="property-actions">
+          <button class="view-btn" onclick="viewPropertyGallery('${location}', '${propertyId}')">
+            <i class="fas fa-images"></i> ${language === 'es' ? 'Ver Imágenes' : 'View Images'}
+          </button>
+          <button class="apply-btn" onclick="applyForProperty('${location}', '${propertyId}')">
             <i class="fas fa-file-signature"></i> ${language === 'es' ? 'Aplicar' : 'Apply'}
           </button>
         </div>
@@ -235,6 +236,7 @@ function showPropertiesForLocation(location) {
   }
   propertiesScreen.classList.remove('hidden');
 }
+
 function viewPropertyGallery(location, propertyId) {
   console.group('View Gallery Debug');
   console.log('Location:', location);
