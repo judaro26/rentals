@@ -164,4 +164,11 @@ button:hover {
   z-index: 0;
 }
 
+/* Add to your existing CSS */
+.form-check-label {
+  margin-left: 5px;
+}
 
+[data-translate] {
+  transition: all 0.3s ease;
+}
