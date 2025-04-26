@@ -310,14 +310,39 @@ function goBackToLocation() {
 }
 
 function goBackFromSlideshow() {
+  // Debugging info
+  console.group('Back from slideshow');
+  console.log('Current location:', currentLocation);
+  
+  // 1. Hide slideshow
   const slideshow = document.getElementById("slideshow");
-  if (slideshow) slideshow.classList.add("hidden");
-
-  if (currentLocation === 'stockton') {
-    document.getElementById("mainPage").classList.remove("hidden");
-  } else {
-    document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+  if (!slideshow) {
+    console.error('Slideshow element not found!');
+    console.groupEnd();
+    return;
   }
+  slideshow.classList.add("hidden");
+  
+  // 2. Show previous screen based on location
+  let previousScreen = null;
+  
+  if (currentLocation === 'stockton') {
+    previousScreen = document.getElementById("mainPage");
+    console.log('For Stockton - showing main page');
+  } else {
+    previousScreen = document.getElementById("dynamicPropertiesScreen");
+    console.log('For other locations - showing dynamic screen');
+  }
+  
+  if (!previousScreen) {
+    console.error('Previous screen element not found!');
+    console.groupEnd();
+    return;
+  }
+  
+  previousScreen.classList.remove("hidden");
+  console.log('Successfully showed previous screen');
+  console.groupEnd();
 }
 
 function goBackToLanguage() {
