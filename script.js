@@ -115,7 +115,7 @@ const properties = {
   },
   fairfield: {
     apartment: {
-      title: { en: "Fairfield Home", es: "Casa en Fairfield" },
+      title: { en: "407 Bell Avenue, Fairfield, California", es: "407 Bell Avenue, Fairfield, California" },
       description: { en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
       images: [
         { src: 'images/fairfield/fairfield.jpg', en: "3 Bed / 2 Bath - $2500/mo", es: "3 Habitaciones / 2 Baños - $2500/mes" },
