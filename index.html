@@ -740,9 +740,7 @@
     <section id="applicationForm" class="hidden">
         <div class="container">
             <h2 id="formTitle">Rental Application</h2>
-            
-            <form id="rentalApplication" name="rental-application" netlify netlify-honeypot="bot-field">
-                <!-- Honeypot field -->
+            <form id="rentalApplication" name="rental-application" method="POST" netlify netlify-honeypot="bot-field" data-netlify="true">
                 <p class="hidden">
                     <label>Don't fill this out if you're human: <input name="bot-field"></label>
                 </p>
@@ -1081,41 +1079,39 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Enhanced form handling for Netlify
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('rentalApplication');
-            if (form) {
-                // Set hidden form values when applying for a property
-                window.applyForProperty = function(location, propertyId) {
-                    document.getElementById('propertyLocation').value = location;
-                    document.getElementById('propertyType').value = propertyId;
-                    document.getElementById('formLanguage').value = language;
-                    document.getElementById("dynamicPropertiesScreen").classList.add("hidden");
-                    document.getElementById("applicationForm").classList.remove("hidden");
-                    updateLabels();
-                };
-
-                form.addEventListener('submit', function(e) {
-                    const submitBtn = document.getElementById('submitApplicationBtn');
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
-                        language === 'es' ? 'Enviando...' : 'Sending...'
-                    }`;
-                    
-                    // Netlify will handle the submission
-                    // We'll check for success/error after submission
-                });
-
-                // Check URL for form submission status
-                if (window.location.search.includes('submit=success')) {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('rentalApplication');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                
+                const submitBtn = document.getElementById('submitApplicationBtn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
+                    language === 'es' ? 'Enviando...' : 'Sending...'
+                }`;
+                
+                // Create a new FormData object
+                const formData = new FormData(form);
+                
+                // Use fetch to submit the form
+                fetch('/', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(formData).toString()
+                })
+                .then(() => {
+                    // Show success message
                     document.getElementById('applicationForm').classList.add('hidden');
                     document.getElementById('form-success').classList.remove('hidden');
-                } else if (window.location.search.includes('submit=error')) {
+                })
+                .catch(error => {
+                    // Show error message
                     document.getElementById('applicationForm').classList.add('hidden');
                     document.getElementById('form-error').classList.remove('hidden');
-                }
-            }
+                });
+            });
 
             // Pet details toggle
             document.querySelectorAll('input[name="pets"]').forEach(radio => {
@@ -1124,7 +1120,8 @@
                         this.value === 'yes' ? 'block' : 'none';
                 });
             });
-        });
-    </script>
+        }
+    });
+</script>
 </body>
 </html>
