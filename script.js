@@ -243,7 +243,9 @@ function showPropertiesForLocation(location) {
       </button>
     </div>
   `;
-  for (const [propertyId, property] of Object.entries(locationProperties)) {
+  const propertiesGrid = document.getElementById(`${location}Properties`);
+  const locationProperties = properties[location]; // Moved this line up
+  for (const [propertyId, property] of Object.entries(locationProperties)) { // Line 246
     const propertyCard = document.createElement('div');
     propertyCard.className = 'property-card';
     propertyCard.innerHTML = `
