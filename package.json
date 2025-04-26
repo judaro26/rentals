@@ -1,0 +1,9 @@
+{
+  "name": "rentpropca",
+  "version": "1.0.0",
+  "dependencies": {
+    "@pdf-lib/fontkit": "^1.0.0",
+    "pdf-lib": "^1.17.1",
+    "node-fetch": "^2.6.7"
+  }
+}
