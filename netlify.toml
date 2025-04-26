@@ -2,3 +2,6 @@
   from = "/submission-success"
   to = "/#form-success"
   status = 200
+
+[build]
+  functions = "netlify/functions"
