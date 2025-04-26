@@ -1049,5 +1049,23 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Update your form submission handler in script.js
+        document.getElementById('rentalApplication').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitApplicationBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
+                language === 'es' ? 'Enviando...' : 'Sending...'
+            }`;
+            
+            // Formspree will handle the actual submission
+            // This just provides user feedback
+            setTimeout(() => {
+                alert(language === 'es' ? 
+                    'Solicitud enviada con éxito. Nos pondremos en contacto con usted pronto.' : 
+                    'Application submitted successfully. We will contact you soon.');
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
