@@ -1167,7 +1167,7 @@ function handleFormSubmission() {
   const urlParams = new URLSearchParams(window.location.search);
 
   // Only proceed if we have the submission indicator AND haven't shown the message yet
-  if (urlParams.has('form-submitted') {
+  if (urlParams.has('form-submitted')) {  // Fixed: added missing closing parenthesis
     if (!hasShownSuccess) {
       // Show success message
       document.getElementById('form-messages')?.classList.remove('hidden');
