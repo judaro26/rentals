@@ -58,10 +58,10 @@ const properties = {
     }
   }
 };
-// State variables
-let currentLocation = 'stockton'; // Default value
+// State variables (should only be declared once)
+let hasShownSuccess = false;
 let language = localStorage.getItem("lang") || 'en';
-let currentSlide = 0;
+let currentLocation = 'stockton';
 let currentProperty = null;
 // Initialize the page
 window.onload = () => {
