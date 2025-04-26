@@ -2,84 +2,73 @@ const { PDFDocument, rgb } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
 
 exports.handler = async (event) => {
-  console.log('Function invoked with event:', JSON.parse(event.body)); // Debug log
-
   try {
-    // Validate request
-    if (event.httpMethod !== 'POST') {
-      throw new Error('Only POST requests allowed');
+    // Parse the incoming data
+    const requestBody = JSON.parse(event.body);
+    console.log('Received body:', requestBody);
+
+    // Validate the structure
+    if (!requestBody.formData) {
+      throw new Error('Payload must contain formData property');
     }
 
-    const { payload } = JSON.parse(event.body);
-    if (!payload || !payload.data) {
-      throw new Error('Invalid payload structure');
-    }
-
-    const formData = payload.data;
-    console.log('Form data received:', formData); // Debug log
+    const formData = requestBody.formData;
+    const metadata = requestBody.metadata || {};
 
     // Create PDF
     const pdfDoc = await PDFDocument.create();
     pdfDoc.registerFontkit(fontkit);
-
-    // Use built-in Helvetica font if external font fails
+    
+    // Use Helvetica if Roboto fails to load
     let font;
     try {
-      const fontBytes = await fetch('https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf')
-        .then(res => res.arrayBuffer());
-      font = await pdfDoc.embedFont(fontBytes);
-    } catch (fontError) {
-      console.warn('Using fallback font:', fontError);
+      const fontResponse = await fetch('https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf');
+      font = await pdfDoc.embedFont(await fontResponse.arrayBuffer());
+    } catch (e) {
       font = await pdfDoc.embedStandardFont('Helvetica');
     }
 
+    // Add page and content
     const page = pdfDoc.addPage([600, 800]);
     let y = 750;
-
-    // Helper function with error handling
+    
     const drawText = (text, size = 12, x = 50) => {
-      try {
-        if (text && typeof text === 'string') {
-          page.drawText(text, { x, y, size, font });
-        }
-        y -= size + 10;
-      } catch (drawError) {
-        console.error('Error drawing text:', drawError);
-      }
+      page.drawText(text, { x, y, size, font });
+      y -= size + 10;
     };
 
-    // Add content
+    // Add content to PDF
     drawText('RENTAL APPLICATION', 20);
     y -= 20;
     
     // Add all form fields
     for (const [key, value] of Object.entries(formData)) {
-      if (value !== undefined && value !== null) {
-        drawText(`${key}: ${value}`);
-      }
+      if (value) drawText(`${key}: ${value}`);
     }
+    
+    // Add metadata
+    y -= 30;
+    drawText(`Generated: ${metadata.submittedAt || 'Unknown date'}`, 10);
+    drawText(`Language: ${metadata.language || 'Unknown'}`, 10);
 
-    // Finalize PDF
+    // Return PDF
     const pdfBytes = await pdfDoc.save();
-    const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
-
     return {
       statusCode: 200,
-      body: JSON.stringify({ 
-        pdf: pdfBase64,
-        filename: `Application_${Date.now()}.pdf`,
-        success: true
-      })
+      body: JSON.stringify({
+        pdf: Buffer.from(pdfBytes).toString('base64'),
+        filename: `Application_${formData['first-name'] || 'Unknown'}_${formData['last-name'] || 'User'}.pdf`
+      }),
+      headers: { 'Content-Type': 'application/json' }
     };
 
   } catch (error) {
-    console.error('PDF generation error:', error);
+    console.error('PDF generation failed:', error);
     return {
-      statusCode: 500,
-      body: JSON.stringify({ 
-        error: 'PDF generation failed',
-        details: error.message,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      statusCode: 400,
+      body: JSON.stringify({
+        error: 'Failed to generate PDF',
+        details: error.message
       })
     };
   }
