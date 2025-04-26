@@ -243,8 +243,6 @@ function showPropertiesForLocation(location) {
       </button>
     </div>
   `;
-  const propertiesGrid = document.getElementById(`${location}Properties`); // Moved this line down
-  const locationProperties = properties[location];
   for (const [propertyId, property] of Object.entries(locationProperties)) {
     const propertyCard = document.createElement('div');
     propertyCard.className = 'property-card';
@@ -459,6 +457,7 @@ function goToApplication(location = currentLocation, propertyId = currentPropert
   document.getElementById("propertyType").value = propertyId; // Set hidden property type
   document.getElementById("formLanguage").value = language; // Set hidden language field
   updateLabels();
+  // The application form's visibility is now controlled, its position should be handled by CSS.
 }
 function showPromptScreen() {
   document.querySelectorAll('section').forEach(sec => {
