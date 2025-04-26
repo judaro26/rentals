@@ -1154,16 +1154,12 @@
         <p>&copy; 2023 Luxury Property Rentals. All rights reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 <script>
 // Track if we've shown the success message
 let hasShownSuccess = false;
-
-// Language variable (only declared once)
+let currentLocation = 'stockton'; // Add this missing variable
 let language = localStorage.getItem("lang") || 'en';
-
-// Current location (missing in original script, used in handleRentalApplicationSubmit)
-let currentLocation = 'stockton'; // Default or fetch from storage if needed
 
 function showFormMessages() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -1171,7 +1167,7 @@ function showFormMessages() {
     document.getElementById('form-messages')?.classList.remove('hidden');
     hasShownSuccess = true;
     sessionStorage.setItem('formSubmitted', 'true');
-    history.replaceState(null, null, window.location.pathname); // Clear the parameter
+    history.replaceState(null, null, window.location.pathname);
   } else if (sessionStorage.getItem('formSubmitted') === 'true' && !hasShownSuccess) {
     document.getElementById('form-messages')?.classList.remove('hidden');
     hasShownSuccess = true;
@@ -1202,34 +1198,19 @@ async function handleRentalApplicationSubmit(e) {
 
   try {
     const formData = new FormData(form);
+    const netlifyResponse = await fetch(form.action, { method: 'POST', body: formData });
+    
+    if (!netlifyResponse.ok) throw new Error('Netlify form submission failed');
 
-    // Submit to Netlify
-    const netlifyResponse = await fetch(form.action, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!netlifyResponse.ok) {
-      throw new Error('Netlify form submission failed');
-    }
-
-    // Generate PDF
     const pdfResponse = await fetch('/.netlify/functions/generate-pdf', {
       method: 'POST',
-      body: JSON.stringify({
-        payload: {
-          data: Object.fromEntries(formData),
-        },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      body: JSON.stringify({ payload: { data: Object.fromEntries(formData) } }),
+      headers: { 'Content-Type': 'application/json' }
     });
 
     const result = await pdfResponse.json();
 
     if (pdfResponse.ok) {
-      // Download PDF
       const link = document.createElement('a');
       link.href = `data:application/pdf;base64,${result.pdf}`;
       link.download = result.filename || `application_${Date.now()}.pdf`;
@@ -1237,7 +1218,6 @@ async function handleRentalApplicationSubmit(e) {
       link.click();
       document.body.removeChild(link);
 
-      // Show success message
       document.getElementById('form-messages')?.classList.remove('hidden');
       hasShownSuccess = true;
     } else {
@@ -1245,55 +1225,38 @@ async function handleRentalApplicationSubmit(e) {
     }
   } catch (error) {
     console.error('Error:', error);
-    alert(
-      language === 'es'
-        ? 'Error al enviar la solicitud. Por favor intente nuevamente.'
-        : 'Error submitting application. Please try again.'
-    );
+    alert(language === 'es' 
+      ? 'Error al enviar la solicitud. Por favor intente nuevamente.' 
+      : 'Error submitting application. Please try again.');
   } finally {
     submitBtn.innerHTML = originalText;
     submitBtn.disabled = false;
-
-    if (hasShownSuccess) {
-      form.reset();
-
-      // Redirect based on location (ensure `currentLocation` is defined)
-      if (currentLocation === 'stockton') {
-        showPromptScreen(); // Make sure this function exists
-      } else {
-        showPropertiesForLocation(currentLocation); // Make sure this function exists
-      }
-    }
+    if (hasShownSuccess) form.reset();
   }
 }
 
-// Helper functions (must be defined or removed if unused)
+// Define missing functions (or remove their calls)
 function showPromptScreen() {
-  console.log('Redirecting to prompt screen...'); // Replace with actual logic
+  document.getElementById('promptScreen').classList.remove('hidden');
+  document.getElementById('applicationForm').classList.add('hidden');
 }
 
 function showPropertiesForLocation(location) {
-  console.log(`Showing properties for ${location}...`); // Replace with actual logic
+  console.log(`Showing properties for ${location}`);
 }
 
-// DOM Content Loaded
+// Initialize on DOM load
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize form submission
   const form = document.getElementById('rentalApplication');
-  if (form) {
-    form.addEventListener('submit', handleRentalApplicationSubmit);
-  }
+  if (form) form.addEventListener('submit', handleRentalApplicationSubmit);
 
-  // Show form messages if needed
   showFormMessages();
 
   // Pet details toggle
   document.querySelectorAll('input[name="pets"]').forEach(radio => {
     radio.addEventListener('change', function() {
       const petDetails = document.getElementById('petDetails');
-      if (petDetails) {
-        petDetails.style.display = this.value === 'yes' ? 'block' : 'none';
-      }
+      if (petDetails) petDetails.style.display = this.value === 'yes' ? 'block' : 'none';
     });
   });
 });
