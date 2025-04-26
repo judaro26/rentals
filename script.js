@@ -294,11 +294,12 @@ function showSlide(location, propertyId) {
     return;
   }
   container.innerHTML = `
-    <img src="<span class="math-inline">\{slide\.src\}" alt\="</span>{slide[language]}" onerror="this.onerror=null;this.src='images/placeholder.jpg'">
+    <img src="${slide.src}" alt="${slide[language]}" onerror="this.onerror=null;this.src='images/placeholder.jpg'">
     <div class="caption">${property.title[language]} - ${slide[language]}</div>
     <div class="slide-nav">
-      ${currentSlide > 0 ? `<button onclick="prevSlide()"><i class="fas fa-chevron-left"></i> ${language === 'es' ? 'Anterior' : 'Previous'}</button>` : ''
-    }
+      ${
+        currentSlide > 0 ? `<button onclick="prevSlide()"><i class="fas fa-chevron-left"></i> ${language === 'es' ? 'Anterior' : 'Previous'}</button>` : ''
+      }
       <span class="slide-counter">${currentSlide + 1} / ${property.images.length}</span>
       ${
         currentSlide < property.images.length - 1
