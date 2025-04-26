@@ -190,6 +190,10 @@ function selectLocation(location) {
   }
   updateLabels();
 }
+function goBack() {
+  document.getElementById('promptScreen').classList.add('hidden');
+  document.getElementById('locationScreen').classList.remove('hidden');
+}
 function showPropertiesForLocation(location) {
   let propertiesScreen = document.getElementById("dynamicPropertiesScreen");
   if (!propertiesScreen) {
