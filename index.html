@@ -737,157 +737,150 @@
     </section>
 
     <!-- Application Form -->
-    <section id="applicationForm" class="hidden">
+   <section id="applicationForm" class="hidden">
         <div class="container">
             <h2 id="formTitle">Rental Application</h2>
-            
-            <form id="rentalApplication">
-                <!-- Personal Information Section -->
+
+            <form id="rentalApplication" netlify netlify-submission="#form-success" netlify-error="#form-error">
+                <p hidden>
+                    <label>Don’t fill this out if you're human: <input name="bot-field" data-netlify-honeypot="bot-field"></label>
+                </p>
                 <fieldset class="form-section">
                     <legend id="personalInfoTitle">Personal Information</legend>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="firstName" id="firstNameLabel">First Name</label>
-                            <input type="text" id="firstName" class="form-control" required data-translate="firstName">
+                            <input type="text" id="firstName" class="form-control" required data-translate="firstName" name="firstName">
                         </div>
                         <div class="form-group">
                             <label for="lastName" id="lastNameLabel">Last Name</label>
-                            <input type="text" id="lastName" class="form-control" required data-translate="lastName">
+                            <input type="text" id="lastName" class="form-control" required data-translate="lastName" name="lastName">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="dob" id="dobLabel">Date of Birth</label>
-                            <input type="date" id="dob" class="form-control" required data-translate="dob">
+                            <input type="date" id="dob" class="form-control" required data-translate="dob" name="dob">
                         </div>
                         <div class="form-group">
                             <label for="ssn" id="ssnLabel">SSN (Last 4 Digits)</label>
-                            <input type="text" id="ssn" class="form-control" pattern="\d{4}" maxlength="4" required data-translate="ssn">
+                            <input type="text" id="ssn" class="form-control" pattern="\d{4}" maxlength="4" required data-translate="ssn" name="ssn">
                         </div>
                     </div>
-                    
-                    <div class="form-row">
+<div class="form-row">
                         <div class="form-group">
                             <label for="email" id="emailLabel">Email Address</label>
-                            <input type="email" id="email" class="form-control" required data-translate="email">
+                            <input type="email" id="email" class="form-control" required data-translate="email" name="email">
                         </div>
                         <div class="form-group">
                             <label for="phone" id="phoneLabel">Phone Number</label>
-                            <input type="tel" id="phone" class="form-control" required data-translate="phone">
+                            <input type="tel" id="phone" class="form-control" required data-translate="phone" name="phone">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="currentAddress" id="currentAddressLabel">Current Address</label>
-                        <textarea id="currentAddress" class="form-control" rows="2" required data-translate="currentAddress"></textarea>
+                        <textarea id="currentAddress" class="form-control" rows="2" required data-translate="currentAddress" name="currentAddress"></textarea>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="currentRent" id="currentRentLabel">Current Rent Amount</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" id="currentRent" class="form-control" min="0" required data-translate="currentRent">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="moveInDate" id="moveInDateLabel">Desired Move-In Date</label>
-                            <input type="date" id="moveInDate" class="form-control" required data-translate="moveInDate">
-                        </div>
-                    </div>
-                </fieldset>
-                
-                <!-- Employment Information -->
-                <fieldset class="form-section">
-                    <legend id="employmentTitle">Employment Information</legend>
-                    
-                    <div class="form-group">
-                        <label for="employerName" id="employerNameLabel">Current Employer</label>
-                        <input type="text" id="employerName" class="form-control" required data-translate="employerName">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="jobTitle" id="jobTitleLabel">Job Title</label>
-                            <input type="text" id="jobTitle" class="form-control" required data-translate="jobTitle">
-                        </div>
-                        <div class="form-group">
-                            <label for="employmentDuration" id="employmentDurationLabel">Duration of Employment</label>
-                            <input type="text" id="employmentDuration" class="form-control" placeholder="e.g., 2 years" required data-translate="employmentDuration">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="employerAddress" id="employerAddressLabel">Employer Address</label>
-                        <textarea id="employerAddress" class="form-control" rows="2" required data-translate="employerAddress"></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="supervisorName" id="supervisorNameLabel">Supervisor Name</label>
-                            <input type="text" id="supervisorName" class="form-control" required data-translate="supervisorName">
-                        </div>
-                        <div class="form-group">
-                            <label for="supervisorPhone" id="supervisorPhoneLabel">Supervisor Phone</label>
-                            <input type="tel" id="supervisorPhone" class="form-control" required data-translate="supervisorPhone">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="monthlyIncome" id="monthlyIncomeLabel">Gross Monthly Income</label>
-                        <div class="input-group">
-                            <span class="input-group-text">$</span>
-                            <input type="number" id="monthlyIncome" class="form-control" min="0" required data-translate="monthlyIncome">
+                                <span class="input-group-text"><span class="math-inline"></span\>
+<input type\="number" id\="currentRent" class\="form\-control" min\="0" required data\-translate\="currentRent" name\="currentRent"\>
+</div\>
+</div\>
+<div class\="form\-group"\>
+<label for\="moveInDate" id\="moveInDateLabel"\>Desired Move\-In Date</label\>
+<input type\="date" id\="moveInDate" class\="form\-control" required data\-translate\="moveInDate" name\="moveInDate"\>
+</div\>
+</div\>
+</fieldset\>
+<fieldset class\="form\-section"\>
+<legend id\="employmentTitle"\>Employment Information</legend\>
+<div class\="form\-group"\>
+<label for\="employerName" id\="employerNameLabel"\>Current Employer</label\>
+<input type\="text" id\="employerName" class\="form\-control" required data\-translate\="employerName" name\="employerName"\>
+</div\>
+<div class\="form\-row"\>
+<div class\="form\-group"\>
+<label for\="jobTitle" id\="jobTitleLabel"\>Job Title</label\>
+<input type\="text" id\="jobTitle" class\="form\-control" required data\-translate\="jobTitle" name\="jobTitle"\>
+</div\>
+<div class\="form\-group"\>
+<label for\="employmentDuration" id\="employmentDurationLabel"\>Duration of Employment</label\>
+<input type\="text" id\="employmentDuration" class\="form\-control" placeholder\="e\.g\., 2 years" required data\-translate\="employmentDuration" name\="employmentDuration"\>
+</div\>
+</div\>
+<div class\="form\-group"\>
+<label for\="employerAddress" id\="employerAddressLabel"\>Employer Address</label\>
+<textarea id\="employerAddress" class\="form\-control" rows\="2" required data\-translate\="employerAddress" name\="employerAddress"\></textarea\>
+</div\>
+<div class\="form\-row"\>
+<div class\="form\-group"\>
+<label for\="supervisorName" id\="supervisorNameLabel"\>Supervisor Name</label\>
+<input type\="text" id\="supervisorName" class\="form\-control" required data\-translate\="supervisorName" name\="supervisorName"\>
+</div\>
+<div class\="form\-group"\>
+<label for\="supervisorPhone" id\="supervisorPhoneLabel"\>Supervisor Phone</label\>
+<input type\="tel" id\="supervisorPhone" class\="form\-control" required data\-translate\="supervisorPhone" name\="supervisorPhone"\>
+</div\>
+</div\>
+<div class\="form\-group"\>
+<label for\="monthlyIncome" id\="monthlyIncomeLabel"\>Gross Monthly Income</label\>
+<div class\="input\-group"\>
+<span class\="input\-group\-text"\></span></span>
+                            <input type="number" id="monthlyIncome" class="form-control" min="0" required data-translate="monthlyIncome" name="monthlyIncome">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label id="incomeProofLabel">Proof of Income</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="payStubs">
+                            <input class="form-check-input" type="checkbox" id="payStubs" name="payStubs" value="on">
                             <label class="form-check-label" for="payStubs" data-translate="payStubs"></label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="bankStatements">
+                            <input class="form-check-input" type="checkbox" id="bankStatements" name="bankStatements" value="on">
                             <label class="form-check-label" for="bankStatements" data-translate="bankStatements"></label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="taxReturns">
+                            <input class="form-check-input" type="checkbox" id="taxReturns" name="taxReturns" value="on">
                             <label class="form-check-label" for="taxReturns" data-translate="taxReturns"></label>
                         </div>
                     </div>
                 </fieldset>
-                
-                <!-- Rental History -->
+
                 <fieldset class="form-section">
                     <legend id="rentalHistoryTitle">Rental History</legend>
-                    
+
                     <div class="form-group">
                         <label for="previousLandlord" id="previousLandlordLabel">Previous Landlord Name</label>
-                        <input type="text" id="previousLandlord" class="form-control" data-translate="previousLandlord">
+                        <input type="text" id="previousLandlord" class="form-control" data-translate="previousLandlord" name="previousLandlord">
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="previousLandlordPhone" id="previousLandlordPhoneLabel">Landlord Phone</label>
-                            <input type="tel" id="previousLandlordPhone" class="form-control" data-translate="previousLandlordPhone">
+                            <input type="tel" id="previousLandlordPhone" class="form-control" data-translate="previousLandlordPhone" name="previousLandlordPhone">
                         </div>
                         <div class="form-group">
                             <label for="previousRent" id="previousRentLabel">Previous Rent Amount</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
-                                <input type="number" id="previousRent" class="form-control" min="0" data-translate="previousRent">
+                                <input type="number" id="previousRent" class="form-control" min="0" data-translate="previousRent" name="previousRent">
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="reasonForLeaving" id="reasonForLeavingLabel">Reason for Leaving</label>
-                        <textarea id="reasonForLeaving" class="form-control" rows="2" data-translate="reasonForLeaving"></textarea>
+                        <textarea id="reasonForLeaving" class="form-control" rows="2" data-translate="reasonForLeaving" name="reasonForLeaving"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label id="evictionLabel">Have you ever been evicted?</label>
                         <div class="form-check">
@@ -900,70 +893,66 @@
                         </div>
                     </div>
                 </fieldset>
-                
-                <!-- Vehicle Information -->
+
                 <fieldset class="form-section">
                     <legend id="vehicleTitle">Vehicle Information</legend>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="make" id="makeLabel">Make</label>
-                            <input type="text" id="make" class="form-control" data-translate="make">
+                            <input type="text" id="make" class="form-control" data-translate="make" name="make">
                         </div>
                         <div class="form-group">
                             <label for="model" id="modelLabel">Model</label>
-                            <input type="text" id="model" class="form-control" data-translate="model">
+                            <input type="text" id="model" class="form-control" data-translate="model" name="model">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="year" id="yearLabel">Year</label>
-                            <input type="number" id="year" class="form-control" min="1900" max="2023" data-translate="year">
+                            <input type="number" id="year" class="form-control" min="1900" max="2023" data-translate="year" name="year">
                         </div>
                         <div class="form-group">
                             <label for="licensePlate" id="licensePlateLabel">License Plate</label>
-                            <input type="text" id="licensePlate" class="form-control" data-translate="licensePlate">
+                            <input type="text" id="licensePlate" class="form-control" data-translate="licensePlate" name="licensePlate">
                         </div>
                     </div>
                 </fieldset>
-                
-                <!-- Emergency Contact -->
                 <fieldset class="form-section">
                     <legend id="emergencyContactTitle">Emergency Contact</legend>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="emergencyName" id="emergencyNameLabel">Full Name</label>
-                            <input type="text" id="emergencyName" class="form-control" required data-translate="emergencyName">
+                            <input type="text" id="emergencyName" class="form-control" required data-translate="emergencyName" name="emergencyName">
                         </div>
                         <div class="form-group">
                             <label for="emergencyRelation" id="emergencyRelationLabel">Relationship</label>
-                            <input type="text" id="emergencyRelation" class="form-control" required data-translate="emergencyRelation">
+                            <input type="text" id="emergencyRelation" class="form-control" required data-translate="emergencyRelation" name="emergencyRelation">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="emergencyPhone" id="emergencyPhoneLabel">Phone Number</label>
-                            <input type="tel" id="emergencyPhone" class="form-control" required data-translate="emergencyPhone">
+                            <input type="tel" id="emergencyPhone" class="form-control" required data-translate="emergencyPhone" name="emergencyPhone">
                         </div>
                         <div class="form-group">
                             <label for="emergencyEmail" id="emergencyEmailLabel">Email</label>
-                            <input type="email" id="emergencyEmail" class="form-control" data-translate="emergencyEmail">
+                            <input type="email" id="emergencyEmail" class="form-control" data-translate="emergencyEmail" name="emergencyEmail">
                         </div>
                     </div>
                 </fieldset>
-                
-                <!-- Additional Information -->
+
                 <fieldset class="form-section">
                     <legend id="additionalInfoTitle">Additional Information</legend>
-                    
+
                     <div class="form-group">
                         <label for="occupants" id="occupantsLabel">Number of Occupants</label>
-                        <input type="number" id="occupants" class="form-control" min="1" required data-translate="occupants">
+                        <input type="number" id="occupants" class="form-control" min="1" required data-translate="occupants" name="occupants">
                     </div>
-                    
+
                     <div class="form-group">
                         <label id="petsLabel">Will you have pets?</label>
                         <div class="form-check">
@@ -975,12 +964,12 @@
                             <label class="form-check-label" for="petsNo" data-translate="petsNo"></label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" id="petDetails" style="display: none;">
                         <label for="petDescription" id="petDescriptionLabel">Pet Description (Type, Breed, Weight)</label>
-                        <textarea id="petDescription" class="form-control" rows="2" data-translate="petDescription"></textarea>
+                        <textarea id="petDescription" class="form-control" rows="2" data-translate="petDescription" name="petDescription"></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label id="smokingLabel">Do you smoke?</label>
                         <div class="form-check">
@@ -992,39 +981,38 @@
                             <label class="form-check-label" for="smokingNo" data-translate="smokingNo"></label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="additionalInfo" id="additionalInfoLabel">Additional Comments</label>
-                        <textarea id="additionalInfo" class="form-control" rows="3" data-translate="additionalInfo"></textarea>
+                        <textarea id="additionalInfo" class="form-control" rows="3" data-translate="additionalInfo" name="additionalInfo"></textarea>
                     </div>
                 </fieldset>
-                
-                <!-- Terms and Conditions -->
+
                 <fieldset class="form-section">
                     <legend id="termsTitle">Terms & Conditions</legend>
-                    
+
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="creditCheck" required>
+                            <input class="form-check-input" type="checkbox" id="creditCheck" required name="creditCheck" value="on">
                             <label class="form-check-label" for="creditCheck" data-translate="creditCheck"></label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                            <input class="form-check-input" type="checkbox" id="termsAgreement" required name="termsAgreement" value="on">
                             <label class="form-check-label" for="termsAgreement" data-translate="termsAgreement"></label>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="stocktonDisclosure" required>
+                            <input class="form-check-input" type="checkbox" id="stocktonDisclosure" required name="stocktonDisclosure" value="on">
                             <label class="form-check-label" for="stocktonDisclosure" data-translate="stocktonDisclosure"></label>
                         </div>
                     </div>
                 </fieldset>
-                
+
                 <div class="form-actions">
                     <button type="submit" class="submit-btn" id="submitApplicationBtn">
                         <i class="fas fa-paper-plane"></i> <span data-translate="submitBtn">Submit Application</span>
@@ -1037,6 +1025,25 @@
         </div>
     </section>
 
+    <div id="form-success" class="hidden">
+        <div class="container">
+            <p>Thank you for your application! We will contact you soon.</p>
+            <button class="back-btn" onclick="showPromptScreen()">
+                <i class="fas fa-arrow-left"></i> Back to Options
+            </button>
+        </div>
+    </div>
+
+    <div id="form-error" class="hidden">
+        <div class="container">
+            <p>Oops! There was an error submitting your form. Please try again.</p>
+            <button class="back-btn" onclick="showPromptScreen()">
+                <i class="fas fa-arrow-left"></i> Back to Options
+            </button>
+        </div>
+    </div>
+
+                    
     <!-- Slideshow -->
     <section id="slideshow" class="hidden">
         <div class="container">
@@ -1050,21 +1057,14 @@
 
     <script src="script.js"></script>
     <script>
-        // Update your form submission handler in script.js
-        document.getElementById('rentalApplication').addEventListener('submit', function(e) {
-            const submitBtn = document.getElementById('submitApplicationBtn');
+        const form = document.getElementById('rentalApplication');
+        const submitBtn = document.getElementById('submitApplicationBtn');
+
+        form.addEventListener('submit', (event) => {
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
                 language === 'es' ? 'Enviando...' : 'Sending...'
             }`;
-            
-            // Formspree will handle the actual submission
-            // This just provides user feedback
-            setTimeout(() => {
-                alert(language === 'es' ? 
-                    'Solicitud enviada con éxito. Nos pondremos en contacto con usted pronto.' : 
-                    'Application submitted successfully. We will contact you soon.');
-            }, 1000);
         });
     </script>
 </body>
