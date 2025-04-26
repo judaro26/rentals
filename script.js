@@ -345,12 +345,31 @@ function goBackToLanguage() {
 }
 
 function goBackFromSlideshow() {
-  document.getElementById("slideshow").classList.add("hidden");
+  console.log('Going back from slideshow'); // Debugging
   
-  if (currentLocation === 'stockton') {
-    document.getElementById("mainPage").classList.remove("hidden");
+  // Hide slideshow
+  const slideshow = document.getElementById("slideshow");
+  if (slideshow) {
+    slideshow.classList.add("hidden");
   } else {
-    document.getElementById("dynamicPropertiesScreen").classList.remove("hidden");
+    console.error('Slideshow element not found');
+  }
+  
+  // Show appropriate previous screen
+  if (currentLocation === 'stockton') {
+    const mainPage = document.getElementById("mainPage");
+    if (mainPage) {
+      mainPage.classList.remove("hidden");
+    } else {
+      console.error('Main page element not found');
+    }
+  } else {
+    const propertiesScreen = document.getElementById("dynamicPropertiesScreen");
+    if (propertiesScreen) {
+      propertiesScreen.classList.remove("hidden");
+    } else {
+      console.error('Properties screen element not found');
+    }
   }
 }
 
