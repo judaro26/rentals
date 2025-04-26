@@ -183,6 +183,7 @@ function setLanguage(lang) {
 function selectLocation(location) {
   currentLocation = location;
   document.getElementById("locationScreen").classList.add("hidden");
+  
   if (location === 'stockton') {
     document.getElementById("promptScreen").querySelector("#promptTitle").textContent = language === 'es' ? "¿Qué te gustaría hacer?" : "What would you like to do?";
     document.getElementById("promptScreen").classList.remove("hidden");
@@ -196,27 +197,15 @@ function selectLocation(location) {
         <i class="fas fa-file-signature"></i> ${language === 'es' ? 'Aplicar para Propiedad' : 'Apply for Property'}
       </button>
     `;
-    const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
-    if (backBtnPrompt) {
-      backBtnPrompt.onclick = goBack; // Use the general goBack function
-    }
   } else if (location === 'fairfield') {
-    document.getElementById("promptScreen").querySelector("#promptTitle").textContent = language === 'es' ? "¿Qué te gustaría hacer en Fairfield?" : "What would you like to do in Fairfield?";
-    document.getElementById("promptScreen").classList.remove("hidden");
-    // Update the action buttons for Fairfield
-    const actionButtons = document.getElementById("promptScreen").querySelector(".action-buttons");
-    actionButtons.innerHTML = `
-      <button class="action-btn" onclick="showPropertiesForLocation('${location}')">
-        <i class="fas fa-images"></i> ${language === 'es' ? 'Ver Propiedades' : 'View Properties'}
-      </button>
-      <button class="action-btn" onclick="applyForProperty('${location}', 'apartment')">
-        <i class="fas fa-file-signature"></i> ${language === 'es' ? 'Aplicar para Propiedad' : 'Apply for Property'}
-      </button>
-    `;
-    const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
-    if (backBtnPrompt) {
-      backBtnPrompt.onclick = goBack; // Use the general goBack function
-    }
+    // For Fairfield, directly show the properties
+    showPropertiesForLocation(location);
+    return; // Exit early since we're showing properties directly
+  }
+  
+  const backBtnPrompt = document.getElementById("promptScreen").querySelector(".back-btn");
+  if (backBtnPrompt) {
+    backBtnPrompt.onclick = goBack;
   }
   updateLabels();
 }
@@ -227,13 +216,21 @@ function goBack() {
 }
 
 function showPropertiesForLocation(location) {
+  // Hide all other sections
+  document.querySelectorAll('section').forEach(sec => {
+    sec.classList.add('hidden');
+  });
+  
+  // Create or update the properties screen
   let propertiesScreen = document.getElementById("dynamicPropertiesScreen");
   if (!propertiesScreen) {
-    propertiesScreen = document.createElement('div');
+    propertiesScreen = document.createElement('section');
     propertiesScreen.id = 'dynamicPropertiesScreen';
     propertiesScreen.classList.add('hidden');
     document.body.appendChild(propertiesScreen);
   }
+  
+  // Set the content
   propertiesScreen.innerHTML = `
     <div class="container">
       <h2>${language === 'es' ? 'Propiedades en' : 'Properties in'} ${location.charAt(0).toUpperCase() + location.slice(1)}</h2>
@@ -243,9 +240,12 @@ function showPropertiesForLocation(location) {
       </button>
     </div>
   `;
+  
+  // Populate the property cards
   const propertiesGrid = document.getElementById(`${location}Properties`);
-  const locationProperties = properties[location]; // Moved this line up
-  for (const [propertyId, property] of Object.entries(locationProperties)) { // Line 246
+  const locationProperties = properties[location];
+  
+  for (const [propertyId, property] of Object.entries(locationProperties)) {
     const propertyCard = document.createElement('div');
     propertyCard.className = 'property-card';
     propertyCard.innerHTML = `
@@ -265,6 +265,8 @@ function showPropertiesForLocation(location) {
     `;
     propertiesGrid.appendChild(propertyCard);
   }
+  
+  // Show the screen
   propertiesScreen.classList.remove('hidden');
 }
 
