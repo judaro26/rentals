@@ -1057,14 +1057,48 @@
 
     <script src="script.js"></script>
     <script>
-        const form = document.getElementById('rentalApplication');
-        const submitBtn = document.getElementById('submitApplicationBtn');
+        // Enhanced form handling for Netlify
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('rentalApplication');
+            if (form) {
+                // Set hidden form values when applying for a property
+                window.applyForProperty = function(location, propertyId) {
+                    document.getElementById('propertyLocation').value = location;
+                    document.getElementById('propertyType').value = propertyId;
+                    document.getElementById('formLanguage').value = language;
+                    document.getElementById("dynamicPropertiesScreen").classList.add("hidden");
+                    document.getElementById("applicationForm").classList.remove("hidden");
+                    updateLabels();
+                };
 
-        form.addEventListener('submit', (event) => {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
-                language === 'es' ? 'Enviando...' : 'Sending...'
-            }`;
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = document.getElementById('submitApplicationBtn');
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
+                        language === 'es' ? 'Enviando...' : 'Sending...'
+                    }`;
+                    
+                    // Netlify will handle the submission
+                    // We'll check for success/error after submission
+                });
+
+                // Check URL for form submission status
+                if (window.location.search.includes('submit=success')) {
+                    document.getElementById('applicationForm').classList.add('hidden');
+                    document.getElementById('form-success').classList.remove('hidden');
+                } else if (window.location.search.includes('submit=error')) {
+                    document.getElementById('applicationForm').classList.add('hidden');
+                    document.getElementById('form-error').classList.remove('hidden');
+                }
+            }
+
+            // Pet details toggle
+            document.querySelectorAll('input[name="pets"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('petDetails').style.display = 
+                        this.value === 'yes' ? 'block' : 'none';
+                });
+            });
         });
     </script>
 </body>
