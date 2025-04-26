@@ -1085,49 +1085,5 @@
     </footer>
 
     <script src="script.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('rentalApplication');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission
-                
-                const submitBtn = document.getElementById('submitApplicationBtn');
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
-                    language === 'es' ? 'Enviando...' : 'Sending...'
-                }`;
-                
-                // Create a new FormData object
-                const formData = new FormData(form);
-                
-                // Use fetch to submit the form
-                fetch('/', {
-                    method: 'POST',
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams(formData).toString()
-                })
-                .then(() => {
-                    // Show success message
-                    document.getElementById('applicationForm').classList.add('hidden');
-                    document.getElementById('form-success').classList.remove('hidden');
-                })
-                .catch(error => {
-                    // Show error message
-                    document.getElementById('applicationForm').classList.add('hidden');
-                    document.getElementById('form-error').classList.remove('hidden');
-                });
-            });
-
-            // Pet details toggle
-            document.querySelectorAll('input[name="pets"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    document.getElementById('petDetails').style.display = 
-                        this.value === 'yes' ? 'block' : 'none';
-                });
-            });
-        }
-    });
-</script>
 </body>
 </html>
