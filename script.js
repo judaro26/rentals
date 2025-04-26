@@ -183,6 +183,7 @@ function showLocationScreen() {
 function setLanguage(lang) {
   language = lang;
   localStorage.setItem("lang", lang);
+  updateLabels(); // This will update the form too
   showLocationScreen();
 }
 
