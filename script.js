@@ -241,17 +241,44 @@ function showPropertiesForLocation(location) {
 }
 
 function viewPropertyGallery(location, propertyId) {
+  // Debugging logs
+  console.log(`Attempting to view gallery for ${location} - ${propertyId}`);
+  
+  // Validate inputs
+  if (!location || !propertyId) {
+    console.error('Missing location or propertyId');
+    return;
+  }
+
+  // Validate property exists
+  if (!properties[location] || !properties[location][propertyId]) {
+    console.error(`Property not found: ${location} - ${propertyId}`);
+    return;
+  }
+
+  // Update state
   currentLocation = location;
   currentProperty = propertyId;
   currentSlide = 0;
-  
-  // Hide current screens
-  document.getElementById("mainPage")?.classList.add("hidden");
-  document.getElementById("dynamicPropertiesScreen")?.classList.add("hidden");
-  
-  // Show the slideshow
+
+  // Hide other sections
+  const sections = document.querySelectorAll('section');
+  sections.forEach(section => {
+    section.classList.add('hidden');
+  });
+
+  // Show slideshow
+  const slideshow = document.getElementById("slideshow");
+  if (!slideshow) {
+    console.error('Slideshow element not found');
+    return;
+  }
+
+  // Load first slide
   showSlide(location, propertyId);
-  document.getElementById("slideshow").classList.remove("hidden");
+  slideshow.classList.remove("hidden");
+  
+  console.log('Gallery shown successfully');
 }
 
 function showSlide(location, propertyId) {
