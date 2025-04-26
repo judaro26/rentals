@@ -493,7 +493,61 @@ function updateLabels() {
       employer: "Current Employer",
       jobTitle: "Job Title",
       income: "Monthly Income",
-      submitBtn: "Submit Application"
+      submitBtn: "Submit Application",
+      personalInfoTitle: "Personal Information",
+      firstName: "First Name",
+      lastName: "Last Name",
+      dob: "Date of Birth",
+      ssn: "SSN (Last 4 Digits)",
+      email: "Email Address",
+      phone: "Phone Number",
+      currentAddress: "Current Address",
+      currentRent: "Current Rent Amount",
+      moveInDate: "Desired Move-In Date",
+      employmentTitle: "Employment Information",
+      employerName: "Current Employer",
+      jobTitle: "Job Title",
+      employmentDuration: "Duration of Employment",
+      employerAddress: "Employer Address",
+      supervisorName: "Supervisor Name",
+      supervisorPhone: "Supervisor Phone",
+      monthlyIncome: "Gross Monthly Income",
+      incomeProofLabel: "Proof of Income",
+      payStubs: "Pay Stubs (Last 2 Months)",
+      bankStatements: "Bank Statements",
+      taxReturns: "Tax Returns",
+      rentalHistoryTitle: "Rental History",
+      previousLandlord: "Previous Landlord Name",
+      previousLandlordPhone: "Landlord Phone",
+      previousRent: "Previous Rent Amount",
+      reasonForLeaving: "Reason for Leaving",
+      evictionLabel: "Have you ever been evicted?",
+      evictionYes: "Yes",
+      evictionNo: "No",
+      vehicleTitle: "Vehicle Information",
+      make: "Make",
+      model: "Model",
+      year: "Year",
+      licensePlate: "License Plate",
+      emergencyContactTitle: "Emergency Contact",
+      emergencyName: "Full Name",
+      emergencyRelation: "Relationship",
+      emergencyPhone: "Phone Number",
+      emergencyEmail: "Email",
+      additionalInfoTitle: "Additional Information",
+      occupants: "Number of Occupants",
+      petsLabel: "Will you have pets?",
+      petsYes: "Yes",
+      petsNo: "No",
+      petDescription: "Pet Description (Type, Breed, Weight)",
+      smokingLabel: "Do you smoke?",
+      smokingYes: "Yes",
+      smokingNo: "No",
+      additionalInfo: "Additional Comments",
+      termsTitle: "Terms & Conditions",
+      creditCheck: "I authorize a credit/background check (Fee may apply)",
+      termsAgreement: "I certify that all information provided is true and complete",
+      stocktonDisclosure: "I acknowledge I have received the City of Stockton Tenant Rights information"
     },
     es: {
       locationTitle: "Seleccione Ubicación",
@@ -509,32 +563,91 @@ function updateLabels() {
       employer: "Empleador Actual",
       jobTitle: "Título del Trabajo",
       income: "Ingresos Mensuales",
-      submitBtn: "Enviar Solicitud"
+      submitBtn: "Enviar Solicitud",
+      personalInfoTitle: "Información Personal",
+      firstName: "Nombre",
+      lastName: "Apellido",
+      dob: "Fecha de Nacimiento",
+      ssn: "SSN (Últimos 4 Dígitos)",
+      email: "Correo Electrónico",
+      phone: "Número de Teléfono",
+      currentAddress: "Dirección Actual",
+      currentRent: "Monto de Renta Actual",
+      moveInDate: "Fecha Deseada de Mudanza",
+      employmentTitle: "Información de Empleo",
+      employerName: "Empleador Actual",
+      jobTitle: "Puesto de Trabajo",
+      employmentDuration: "Duración del Empleo",
+      employerAddress: "Dirección del Empleador",
+      supervisorName: "Nombre del Supervisor",
+      supervisorPhone: "Teléfono del Supervisor",
+      monthlyIncome: "Ingresos Mensuales Brutos",
+      incomeProofLabel: "Comprobante de Ingresos",
+      payStubs: "Recibos de Pago (Últimos 2 Meses)",
+      bankStatements: "Estados de Cuenta Bancarios",
+      taxReturns: "Declaraciones de Impuestos",
+      rentalHistoryTitle: "Historial de Renta",
+      previousLandlord: "Nombre del Propietario Anterior",
+      previousLandlordPhone: "Teléfono del Propietario",
+      previousRent: "Monto de Renta Anterior",
+      reasonForLeaving: "Razón para Mudarse",
+      evictionLabel: "¿Ha sido desalojado alguna vez?",
+      evictionYes: "Sí",
+      evictionNo: "No",
+      vehicleTitle: "Información del Vehículo",
+      make: "Marca",
+      model: "Modelo",
+      year: "Año",
+      licensePlate: "Placa de Matrícula",
+      emergencyContactTitle: "Contacto de Emergencia",
+      emergencyName: "Nombre Completo",
+      emergencyRelation: "Relación",
+      emergencyPhone: "Número de Teléfono",
+      emergencyEmail: "Correo Electrónico",
+      additionalInfoTitle: "Información Adicional",
+      occupants: "Número de Ocupantes",
+      petsLabel: "¿Tendrá mascotas?",
+      petsYes: "Sí",
+      petsNo: "No",
+      petDescription: "Descripción de la Mascota (Tipo, Raza, Peso)",
+      smokingLabel: "¿Fuma?",
+      smokingYes: "Sí",
+      smokingNo: "No",
+      additionalInfo: "Comentarios Adicionales",
+      termsTitle: "Términos y Condiciones",
+      creditCheck: "Autorizo una verificación de crédito/antecedentes (Puede aplicar una tarifa)",
+      termsAgreement: "Certifico que toda la información proporcionada es verdadera y completa",
+      stocktonDisclosure: "Reconozco que he recibido la información sobre los Derechos del Inquilino de la Ciudad de Stockton"
+    }
     }
   };
 
+  // Apply translations
   const lang = translations[language] || translations.en;
   
+  // Update all elements
   for (const [key, value] of Object.entries(lang)) {
-    const elements = document.querySelectorAll(`[id="${key}"]`);
+    const elements = document.querySelectorAll(`[id="${key}"], [data-translate="${key}"]`);
     elements.forEach(el => {
-      if (el.tagName === 'INPUT' && el.type !== 'submit') {
+      if (el.tagName === 'INPUT' && el.type !== 'submit' && el.type !== 'checkbox' && el.type !== 'radio') {
         el.placeholder = value;
-      } else {
+      } else if (el.tagName === 'LABEL' || el.tagName === 'SPAN' || el.tagName === 'P' || el.tagName === 'H3' || el.tagName === 'LEGEND') {
         el.textContent = value;
       }
     });
   }
 
-  if (document.getElementById('mainHouseBtn') && properties.stockton.main) {
-    document.getElementById('mainHouseBtn').textContent = properties.stockton.main.title[language];
-    document.querySelector('#mainPage .property-card:nth-child(1) p').textContent = properties.stockton.main.description[language];
-  }
-  
-  if (document.getElementById('studioBtn') && properties.stockton.studio) {
-    document.getElementById('studioBtn').textContent = properties.stockton.studio.title[language];
-    document.querySelector('#mainPage .property-card:nth-child(2) p').textContent = properties.stockton.studio.description[language];
-  }
+  // Update checkboxes and radio buttons
+  document.querySelectorAll('[data-translate]').forEach(el => {
+    const key = el.getAttribute('data-translate');
+    if (lang[key]) {
+      if (el.tagName === 'INPUT' && (el.type === 'checkbox' || el.type === 'radio')) {
+        el.nextElementSibling.textContent = lang[key];
+      } else if (el.tagName === 'OPTION') {
+        el.textContent = lang[key];
+      }
+    }
+  });
 }
 
 // Form handling
