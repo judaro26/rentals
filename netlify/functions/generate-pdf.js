@@ -1,80 +1,85 @@
-// netlify/functions/generate-pdf.js
 const { PDFDocument, rgb } = require('pdf-lib');
 const fontkit = require('@pdf-lib/fontkit');
-const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
-  // Only allow POST requests
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: 'Method not allowed' })
-    };
-  }
+  console.log('Function invoked with event:', JSON.parse(event.body)); // Debug log
 
   try {
-    const data = JSON.parse(event.body);
-    const formData = data.payload.data;
-    
+    // Validate request
+    if (event.httpMethod !== 'POST') {
+      throw new Error('Only POST requests allowed');
+    }
+
+    const { payload } = JSON.parse(event.body);
+    if (!payload || !payload.data) {
+      throw new Error('Invalid payload structure');
+    }
+
+    const formData = payload.data;
+    console.log('Form data received:', formData); // Debug log
+
     // Create PDF
     const pdfDoc = await PDFDocument.create();
     pdfDoc.registerFontkit(fontkit);
-    
-    // Load font (Roboto - you can replace with your preferred font)
-    const fontUrl = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Regular.ttf?raw=true';
-    const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
-    const font = await pdfDoc.embedFont(fontBytes);
-    
-    // Add page
+
+    // Use built-in Helvetica font if external font fails
+    let font;
+    try {
+      const fontBytes = await fetch('https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf')
+        .then(res => res.arrayBuffer());
+      font = await pdfDoc.embedFont(fontBytes);
+    } catch (fontError) {
+      console.warn('Using fallback font:', fontError);
+      font = await pdfDoc.embedStandardFont('Helvetica');
+    }
+
     const page = pdfDoc.addPage([600, 800]);
-    
-    // Helper function to draw text
     let y = 750;
-    const drawText = (text, size = 12, x = 50, bold = false) => {
-      page.drawText(text, { 
-        x, 
-        y, 
-        size, 
-        font,
-        color: rgb(0, 0, 0)
-      });
-      y -= size + (bold ? 15 : 10);
+
+    // Helper function with error handling
+    const drawText = (text, size = 12, x = 50) => {
+      try {
+        if (text && typeof text === 'string') {
+          page.drawText(text, { x, y, size, font });
+        }
+        y -= size + 10;
+      } catch (drawError) {
+        console.error('Error drawing text:', drawError);
+      }
     };
-    
-    // Header
-    drawText('RENTAL APPLICATION', 20, 50, true);
+
+    // Add content
+    drawText('RENTAL APPLICATION', 20);
     y -= 20;
     
-    // Property Info
-    drawText('PROPERTY INFORMATION', 16, 50, true);
-    drawText(`Location: ${formData['property-location'] || 'N/A'}`);
-    drawText(`Property Type: ${formData['property-type'] || 'N/A'}`);
-    y -= 15;
-    
-    // Personal Information
-    drawText('PERSONAL INFORMATION', 16, 50, true);
-    drawText(`Name: ${formData['first-name'] || ''} ${formData['last-name'] || ''}`);
-    drawText(`Email: ${formData.email || 'N/A'}`);
-    drawText(`Phone: ${formData.phone || 'N/A'}`);
-    // Add more fields as needed...
-    
-    // Save PDF
+    // Add all form fields
+    for (const [key, value] of Object.entries(formData)) {
+      if (value !== undefined && value !== null) {
+        drawText(`${key}: ${value}`);
+      }
+    }
+
+    // Finalize PDF
     const pdfBytes = await pdfDoc.save();
-    
+    const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
+
     return {
       statusCode: 200,
       body: JSON.stringify({ 
-        pdf: Buffer.from(pdfBytes).toString('base64'),
-        filename: `Rental_Application_${formData['first-name']}_${formData['last-name']}.pdf`
-      }),
-      headers: { 'Content-Type': 'application/json' }
+        pdf: pdfBase64,
+        filename: `Application_${Date.now()}.pdf`,
+        success: true
+      })
     };
+
   } catch (error) {
+    console.error('PDF generation error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ 
-        error: 'Failed to generate PDF',
-        details: error.message 
+        error: 'PDF generation failed',
+        details: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       })
     };
   }
