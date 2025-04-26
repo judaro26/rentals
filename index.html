@@ -798,7 +798,7 @@
     <section id="applicationForm" class="hidden">
         <div class="container">
             <h2 id="formTitle">Rental Application</h2>
-            <form name="rental-application"
+            <form name="rental-application" 
                   method="POST"
                   netlify
                   data-netlify="true"
@@ -1175,45 +1175,61 @@ async function handleRentalApplicationSubmit(e) {
   try {
     const formData = new FormData(form);
 
-    // Submit to Netlify
+    // 1. First submit to Netlify Forms
     const netlifyResponse = await fetch(form.action, {
       method: 'POST',
-      body: formData,
+      body: formData
     });
 
-    if (!netlifyResponse.ok) throw new Error('Form submission failed');
+    if (!netlifyResponse.ok) {
+      throw new Error('Netlify form submission failed');
+    }
 
-    // Generate PDF (only if you need this)
+    // 2. Then generate PDF
     const pdfResponse = await fetch('/.netlify/functions/generate-pdf', {
       method: 'POST',
-      body: JSON.stringify({ payload: { data: Object.fromEntries(formData) } }),
-      headers: { 'Content-Type': 'application/json' }
+      body: JSON.stringify({
+        payload: {
+          data: Object.fromEntries(formData)
+        }
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
 
     const result = await pdfResponse.json();
-    if (!pdfResponse.ok) throw new Error(result.error || 'PDF generation failed');
 
-    // Success handling
-    document.getElementById('form-messages')?.classList.remove('hidden');
-    hasShownSuccess = true;
-    
-    // Download PDF
-    const link = document.createElement('a');
-    link.href = `data:application/pdf;base64,${result.pdf}`;
-    link.download = result.filename || `application_${Date.now()}.pdf`;
-    link.click();
+    if (pdfResponse.ok) {
+      // Download the PDF automatically
+      const link = document.createElement('a');
+      link.href = `data:application/pdf;base64,${result.pdf}`;
+      link.download = result.filename || `application_${Date.now()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
+      // Show success message
+      document.getElementById('form-messages')?.classList.remove('hidden');
+      hasShownSuccess = true;
+      
+      // Reset form if needed
+      form.reset();
+    } else {
+      throw new Error(result.error || 'PDF generation failed');
+    }
   } catch (error) {
     console.error('Error:', error);
-    alert(language === 'es' 
-      ? 'Error al enviar la solicitud. Por favor intente nuevamente.' 
-      : 'Error submitting application. Please try again.');
+    alert(
+      language === 'es'
+        ? 'Error al enviar la solicitud. Por favor intente nuevamente.'
+        : 'Error submitting application. Please try again.'
+    );
   } finally {
     submitBtn.innerHTML = originalText;
     submitBtn.disabled = false;
   }
 }
-
 // Initialize form submission (DOM loaded)
 document.addEventListener('DOMContentLoaded', function() {
   // Form submission
